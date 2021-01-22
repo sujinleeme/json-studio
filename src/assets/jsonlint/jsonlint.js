@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* Json generated parser */
 var jsonlint = (function () {
   var parser = {

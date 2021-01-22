@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const downloadJsonFile = async (content: string) => {
   const fileName = uuid();
   const json = JSON.stringify(content);
@@ -13,6 +14,7 @@ export const downloadJsonFile = async (content: string) => {
     link.click();
     document.body.removeChild(link);
   } catch (err) {
-    alert(err);
+    // eslint-disable-next-line no-console
+    console.log("file error");
   }
 };

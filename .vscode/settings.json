@@ -1,4 +1,13 @@
 {
   "files.autoSave": "onFocusChange",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "eslint.validate": [
+    "typescript", "typescriptreact"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.codeActionsOnSave.mode": "problems",
 }

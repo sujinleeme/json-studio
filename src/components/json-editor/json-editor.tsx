@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
+
 import Editor, { OnMount, OnValidate } from "@monaco-editor/react";
-import { MessageBar, MessageBarType } from "@fluentui/react";
-import { downloadJsonFile } from "./file";
 
 import { CommandBar } from "../command-bar";
-
+import { ErrorMessageBar } from "../error-message-bar";
+import { TopBar } from "../top-bar";
+import { downloadJsonFile } from "./file";
 import { prettifyJsonString, minifyJsonString } from "./utils";
 
 interface JSONEditorProps {
@@ -21,7 +22,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   const editorRef = useRef(null);
   let fileReader: FileReader;
 
-  const handleEditorWithoutPrettify = (value: string) => setContent(value);
+  const handleEditorWithoutPrettify = (value?: string) => setContent(value);
 
   const handleEditorPrettify = (value: string) => {
     const json = prettifyJsonString(value);
@@ -34,24 +35,22 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     }
   };
 
-  const handleEditorDidMount: OnMount = (editor, event) => {
+  const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.getModel().updateOptions({ tabSize: 2, insertSpaces: false });
+    // eslint-disable-next-line
     const editorEl = editor._domElement;
     editorEl.addEventListener("paste", (event: ClipboardEvent) => {
-      const paste = (
-        event.clipboardData || (window as any).clipboardData
-      ).getData("text");
+      // eslint-disable-next-line
+      const paste = (event.clipboardData || (window as any).clipboardData).getData("text");
       handleEditorPrettify(paste);
     });
   };
 
-  const handleEditorChange = (value?: string) => {
-    if (!value) return;
-    isAutoPrettify
+  const handleEditorChange = (value?: string) =>
+    value && isAutoPrettify
       ? handleEditorPrettify(value)
       : handleEditorWithoutPrettify(value);
-  };
 
   const handleClearClick = () => setContent(undefined);
 
@@ -64,8 +63,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   };
 
   const handleMinifyClick = () => {
-    if (!content) return;
-    const minifyJson = minifyJsonString(content);
+    const minifyJson = content && minifyJsonString(content);
     handleEditorWithoutPrettify(minifyJson);
   };
 
@@ -77,25 +75,26 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   const handleLivePrettifyChange = () => setAutoPrettify(!isAutoPrettify);
 
   const handleFileRead = () => {
-    const content = fileReader.result as string;
-    handleEditorChange(content);
+    const result = fileReader.result as string;
+    handleEditorChange(result);
   };
 
   const handleUploadClick = (target: HTMLInputElement) => {
     target.click();
-    if (target.files!.length > 0) {
+    const isFile: boolean = target.files!.length > 0;
+    if (isFile) {
       fileReader = new FileReader();
       fileReader.onloadend = handleFileRead;
       fileReader.readAsText(target.files![0]);
     }
   };
 
-  const handleDownloadClick = () => {
-    return !content ? alert("no json content") : downloadJsonFile(content);
-  };
+  const handleDownloadClick = () =>
+    content && isValidJson && downloadJsonFile(content);
 
   return (
     <div>
+      <TopBar />
       <CommandBar
         onMinifyClick={handleMinifyClick}
         onPrettifyClick={handlePrettifyClick}
@@ -107,7 +106,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
         isValidJson={isValidJson}
       />
       <Editor
-        height="90vh"
+        height="500px"
         defaultLanguage="json"
         beforeMount={handleEditorBeforeMount}
         defaultValue={defaultValue}
@@ -120,21 +119,3 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     </div>
   );
 };
-
-interface ErrorMessageBarProps {
-  errors: string[];
-}
-
-const ErrorMessageBar: React.FC<ErrorMessageBarProps> = ({
-  errors,
-}): JSX.Element => (
-  <MessageBar
-    messageBarType={MessageBarType.error}
-    isMultiline={false}
-    dismissButtonAriaLabel="Close"
-  >
-    {errors.map((error, index) => (
-      <p key={`error-${index}`}>{error}</p>
-    ))}
-  </MessageBar>
-);

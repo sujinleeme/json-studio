@@ -1,5 +1,5 @@
-import { parseString } from "./utils";
 import { ajv, AjvErrorObject } from "./ajv";
+import { parseString } from "./utils";
 
 export enum JsonErrorType {
   Schema = "schema",
@@ -15,6 +15,7 @@ export interface ImproveSchemaError extends AjvErrorObject {
 }
 
 const improveSchemaError = (error: AjvErrorObject): ImproveSchemaError => {
+  let message = "";
   if (error.keyword === "enum" && Array.isArray(error.schema)) {
     let enums = error.schema;
     if (enums) {
@@ -25,15 +26,16 @@ const improveSchemaError = (error: AjvErrorObject): ImproveSchemaError => {
         enums = enums.slice(0, 5);
         enums.push(more);
       }
-      error.message = `should be equal to one of: ${enums.join(", ")}`;
+      message = `should be equal to one of: ${enums.join(", ")}`;
     }
   }
 
   if (error.keyword === "additionalProperties") {
-    error.message = `should NOT have additional property: ${error.params.additionalProperty}`;
+    message = `should NOT have additional property: ${error.params.additionalProperty}`;
   }
   return {
     ...error,
+    message,
     type: JsonErrorType.Schema,
   };
 };
@@ -42,8 +44,8 @@ const improveSchemaError = (error: AjvErrorObject): ImproveSchemaError => {
  * Execute JSON schema validation (ajv)
  */
 interface ValidateSchemaArgs {
-  schema?: object;
-  json?: JSON | {};
+  schema?: Record<string, unknown>;
+  json?: JSON;
 }
 
 type ValidateSchema = ImproveSchemaError[] | undefined;
@@ -63,6 +65,7 @@ const validateSchema = ({
       );
     }
   }
+  return undefined;
 };
 
 /**
@@ -108,9 +111,7 @@ export const validateJson = ({
     // execute JSON schema validation (ajv)
     return validateSchema({ schema, json });
   } catch (err) {
-    if (jsonString) {
-      // try to extract the line number from the jsonlint error message
-      return improveParseError(err);
-    }
+    // try to extract the line number from the jsonlint error message
+    return jsonString ? improveParseError(err) : undefined;
   }
 };

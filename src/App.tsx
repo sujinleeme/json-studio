@@ -1,4 +1,5 @@
 import React from "react";
+
 import { JSONEditor } from "./components/json-editor";
 
 const defaultValue =

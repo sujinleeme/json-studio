@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+
 import {
   CommandBar as CommandBarComponent,
   ICommandBarItemProps,
@@ -113,7 +114,6 @@ export const CommandBar: React.FC<CommandBarProps> = ({
         </div>
       ),
     },
-
     {
       key: "info",
       text: "Info",
@@ -128,9 +128,14 @@ export const CommandBar: React.FC<CommandBarProps> = ({
   return (
     <div>
       <CommandBarComponent
+        styles={{
+          root: {
+            alignItems: "center",
+          },
+        }}
         items={leftItems}
         farItems={rightItems}
-        ariaLabel="Use left and right arrow keys to navigate between commands"
+        ariaLabel="json content commands"
       />
     </div>
   );
