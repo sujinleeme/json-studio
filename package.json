@@ -1,7 +1,27 @@
 {
   "name": "react-json-editor",
+  "author": {
+    "name": "Sujin Lee",
+    "email": "sujinlee.me@gmail.com",
+    "url": "https://sujinlee.me/"
+  },
+  "description": "A simple online json editor",
   "version": "0.1.0",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sujinleeme/react-json-editor"
+  },
+  "keywords": [
+    "json",
+    "react",
+    "json-editor",
+    "monaco-editor"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sujinleeme/react-json-editor/issues"
+  },
+  "homepage": "http://sujinleeme.github.io/react-json-editor",
   "dependencies": {
     "@fluentui/react": "^7.156.0",
     "@monaco-editor/react": "^4.0.7",
@@ -35,12 +55,10 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
-      "yarn lint --fix",
-      "git add"
+      "yarn lint --fix"
     ],
     "*.{json,md,html}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "eslintConfig": {
@@ -78,6 +96,5 @@
     "gh-pages": "^3.1.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3"
-  },
-  "homepage": "http://sujinleeme.github.io/react-json-editor"
+  }
 }
