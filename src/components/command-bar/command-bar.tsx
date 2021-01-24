@@ -11,9 +11,11 @@ import {
 export interface CommandBarProps {
   onMinifyClick: () => void;
   onPrettifyClick: () => void;
-  isAutoPrettify: boolean;
+  isAutoPrettifyOn: boolean;
+  isSchemaEditorOn?: boolean;
   onClearClick: () => void;
-  onLivePrettifyChange: () => void;
+  onSchemaEditorChange?: () => void;
+  onAutoPrettifyChange: () => void;
   onDownloadClick: () => void;
   onUploadClick: (target: HTMLInputElement) => void;
   isValidJson: boolean;
@@ -22,12 +24,14 @@ export interface CommandBarProps {
 export const CommandBar: React.FC<CommandBarProps> = ({
   onMinifyClick,
   onPrettifyClick,
-  isAutoPrettify,
-  onLivePrettifyChange,
+  isAutoPrettifyOn,
+  onAutoPrettifyChange,
   onClearClick,
   onDownloadClick,
+  onSchemaEditorChange,
   onUploadClick,
   isValidJson,
+  isSchemaEditorOn,
 }) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
@@ -84,16 +88,29 @@ export const CommandBar: React.FC<CommandBarProps> = ({
       onClick: onMinifyClick,
     },
     {
-      key: "live-prettify",
+      key: "auto-prettify",
       onRender: () => (
         <CommandButton>
           <Checkbox
-            label="Live Prettify"
-            onChange={onLivePrettifyChange}
-            checked={isAutoPrettify}
+            label="Auto Prettify"
+            onChange={onAutoPrettifyChange}
+            checked={isAutoPrettifyOn}
           />
         </CommandButton>
       ),
+    },
+    {
+      key: "show-schema",
+      onRender: () =>
+        onSchemaEditorChange && (
+          <CommandButton>
+            <Checkbox
+              label="Show Schema"
+              onChange={onSchemaEditorChange}
+              checked={isSchemaEditorOn}
+            />
+          </CommandButton>
+        ),
     },
   ];
 

@@ -2,23 +2,27 @@ import React, { useState, useRef } from "react";
 
 import Editor, { OnMount, OnValidate } from "@monaco-editor/react";
 
+import { useToggle } from "../../hooks";
 import { CommandBar } from "../command-bar";
 import { ErrorMessageBar } from "../error-message-bar";
-import { TopBar } from "../top-bar";
 import { downloadJsonFile } from "./file";
 import { prettifyJsonString, minifyJsonString } from "./utils";
 
 interface JSONEditorProps {
   defaultValue?: string;
+  onSchemaEditorChange?: () => void;
+  isSchemaEditorOn?: boolean;
 }
+
 export const JSONEditor: React.FC<JSONEditorProps> = ({
+  isSchemaEditorOn = false,
   defaultValue,
+  onSchemaEditorChange,
 }): JSX.Element => {
   const [errors, setErrors] = useState<string[]>([]);
   const [content, setContent] = useState<string | undefined>(undefined);
-  const [isAutoPrettify, setAutoPrettify] = useState<boolean>(false);
+  const [isAutoPrettifyOn, toggleAutoPrettifyOn] = useToggle(false);
   const [isValidJson, setIsValidJson] = useState<boolean>(false);
-
   const editorRef = useRef(null);
   let fileReader: FileReader;
 
@@ -48,7 +52,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   };
 
   const handleEditorChange = (value?: string) =>
-    value && isAutoPrettify
+    value && isAutoPrettifyOn
       ? handleEditorPrettify(value)
       : handleEditorWithoutPrettify(value);
 
@@ -72,7 +76,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     handleEditorPrettify(content);
   };
 
-  const handleLivePrettifyChange = () => setAutoPrettify(!isAutoPrettify);
+  // const handleLivePrettifyChange = () => setAutoPrettify(!isAutoPrettify);
 
   const handleFileRead = () => {
     const result = fileReader.result as string;
@@ -94,16 +98,17 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
 
   return (
     <div>
-      <TopBar />
       <CommandBar
+        isValidJson={isValidJson}
+        isAutoPrettifyOn={isAutoPrettifyOn}
+        isSchemaEditorOn={isSchemaEditorOn}
+        onAutoPrettifyChange={toggleAutoPrettifyOn}
+        onClearClick={handleClearClick}
+        onDownloadClick={handleDownloadClick}
+        onSchemaEditorChange={onSchemaEditorChange}
         onMinifyClick={handleMinifyClick}
         onPrettifyClick={handlePrettifyClick}
-        isAutoPrettify={isAutoPrettify}
-        onLivePrettifyChange={handleLivePrettifyChange}
-        onClearClick={handleClearClick}
         onUploadClick={handleUploadClick}
-        onDownloadClick={handleDownloadClick}
-        isValidJson={isValidJson}
       />
       <Editor
         height="500px"
