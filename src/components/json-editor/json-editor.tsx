@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import Editor, { OnMount, OnValidate } from "@monaco-editor/react";
 
@@ -31,6 +31,12 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   const handleEditorPrettify = (value: string) => {
     const json = prettifyJsonString(value);
     setContent(json);
+    // eslint-disable-next-line
+    const editor: any = editorRef.current;
+    // It might be a  @monaco-editor/react's problem.
+    // need to set new value inside. otherwise, it can't resize horizontal slider's  width.
+    if (!editor) return;
+    editor.setValue(json);
   };
 
   const handleEditorBeforeMount = () => {
@@ -62,7 +68,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     const errorMessage = markers.map(
       ({ startLineNumber, message }) => `line ${startLineNumber}: ${message}`
     );
-    setIsValidJson(errorMessage.length > 0);
+    setIsValidJson(!(errorMessage.length > 0));
     setErrors(errorMessage);
   };
 
@@ -76,15 +82,14 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     handleEditorPrettify(content);
   };
 
-  // const handleLivePrettifyChange = () => setAutoPrettify(!isAutoPrettify);
-
-  const handleFileRead = () => {
-    const result = fileReader.result as string;
-    handleEditorChange(result);
-  };
-
   const handleUploadClick = (target: HTMLInputElement) => {
+    const handleFileRead = () => {
+      const result = fileReader.result as string;
+      handleEditorChange(result);
+    };
+
     target.click();
+
     const isFile: boolean = target.files!.length > 0;
     if (isFile) {
       fileReader = new FileReader();
@@ -113,6 +118,11 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
       <Editor
         height="500px"
         defaultLanguage="json"
+        options={{
+          // formatOnPaste: true is working but the width replied on unformatted string's width
+          automaticLayout: true,
+          scrollBeyondLastLine: false,
+        }}
         beforeMount={handleEditorBeforeMount}
         defaultValue={defaultValue}
         onMount={handleEditorDidMount}

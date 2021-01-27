@@ -6,6 +6,8 @@ import {
   CommandButton,
   Checkbox,
   DefaultButton,
+  Dropdown,
+  IDropdownOption,
 } from "@fluentui/react";
 
 export interface CommandBarProps {
@@ -20,6 +22,15 @@ export interface CommandBarProps {
   onUploadClick: (target: HTMLInputElement) => void;
   isValidJson: boolean;
 }
+
+const options: IDropdownOption[] = [
+  { key: "2019-09", text: "2019-09" },
+  { key: "draft-7", text: "Draft 7" },
+  { key: "draft-6", text: "Draft 6" },
+  { key: "draft-5", text: "Draft 5" },
+  { key: "draft-4", text: "Draft 4" },
+  { key: "draft-3", text: "Draft 3" },
+];
 
 export const CommandBar: React.FC<CommandBarProps> = ({
   onMinifyClick,
@@ -50,14 +61,7 @@ export const CommandBar: React.FC<CommandBarProps> = ({
       onClick: handleOnChange,
     },
     {
-      key: "download",
-      text: "Download",
-      ariaLabel: "Grid view",
-      iconProps: { iconName: "Download" },
-      onClick: onDownloadClick,
-    },
-    {
-      key: "upload-dummy",
+      key: "upload-input",
       text: "Upload",
       onRender: () => (
         <input
@@ -70,6 +74,14 @@ export const CommandBar: React.FC<CommandBarProps> = ({
       ),
     },
     {
+      key: "download",
+      text: "Download",
+      ariaLabel: "Grid view",
+      iconProps: { iconName: "Download" },
+      onClick: onDownloadClick,
+      disabled: !isValidJson,
+    },
+    {
       key: "clear",
       text: "Clear",
       iconProps: { iconName: "Delete" },
@@ -80,12 +92,14 @@ export const CommandBar: React.FC<CommandBarProps> = ({
       text: "Prettify",
       iconProps: { iconName: "MaximumValue" },
       onClick: onPrettifyClick,
+      disabled: !isValidJson,
     },
     {
-      key: "Minify",
+      key: "minify",
       text: "Minify",
       iconProps: { iconName: "MinimumValue" },
       onClick: onMinifyClick,
+      disabled: !isValidJson,
     },
     {
       key: "auto-prettify",
@@ -100,14 +114,27 @@ export const CommandBar: React.FC<CommandBarProps> = ({
       ),
     },
     {
-      key: "show-schema",
+      key: "use-json-schema",
       onRender: () =>
         onSchemaEditorChange && (
           <CommandButton>
             <Checkbox
-              label="Show Schema"
+              label="Use JSON Schema"
               onChange={onSchemaEditorChange}
               checked={isSchemaEditorOn}
+            />
+          </CommandButton>
+        ),
+    },
+    {
+      key: "show-schema",
+      onRender: () =>
+        onSchemaEditorChange && (
+          <CommandButton>
+            <Dropdown
+              placeholder="Select JSON Schema"
+              options={options}
+              // styles={dropdownStyles}
             />
           </CommandButton>
         ),

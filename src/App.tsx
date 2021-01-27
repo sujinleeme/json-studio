@@ -31,6 +31,11 @@ const App = (): JSX.Element => {
         styles={containerStackStyles}
         tokens={wrapStackTokens}
       >
+        {/* {isSchemaEditorOn && (
+          <Stack.Item grow>
+            <JSONEditor defaultValue={defaultValue} />
+          </Stack.Item>
+        )} */}
         <Stack.Item grow>
           <JSONEditor
             defaultValue={defaultValue}
@@ -38,11 +43,6 @@ const App = (): JSX.Element => {
             onSchemaEditorChange={toggleASchemaEditorOn}
           />
         </Stack.Item>
-        {isSchemaEditorOn && (
-          <Stack.Item grow>
-            <JSONEditor defaultValue={defaultValue} />
-          </Stack.Item>
-        )}
       </Stack>
     </div>
   );
