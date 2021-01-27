@@ -7,7 +7,7 @@ Built with [create-react-app](https://reactjs.org/docs/create-a-new-react-app.ht
 
 ## Demo
 
-https://sujinleeme.github.io/react-json-editor/
+Visit : https://sujinleeme.github.io/react-json-editor/
 
 ## Installation
 
@@ -15,9 +15,13 @@ Git clone this repo and run `yarn && yarn start`.
 
 ## TODO
 
-- Handle localstrage
+- HaTextarea cache
 - JSON schema validator
 - Form integration
 - Diff editor
 - Toast notification message
 - Error messages enhancement
+
+## License
+
+MIT
