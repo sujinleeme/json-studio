@@ -24,7 +24,6 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   const [isAutoPrettifyOn, toggleAutoPrettifyOn] = useToggle(false);
   const [isValidJson, setIsValidJson] = useState<boolean>(false);
   const editorRef = useRef(null);
-  let fileReader: FileReader;
 
   const handleEditorWithoutPrettify = (value?: string) => setContent(value);
 
@@ -82,20 +81,13 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     handleEditorPrettify(content);
   };
 
-  const handleUploadClick = (target: HTMLInputElement) => {
-    const handleFileRead = () => {
+  const handleUploadClick = (file: File) => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
       const result = fileReader.result as string;
-      handleEditorChange(result);
+      handleEditorPrettify(result);
     };
-
-    target.click();
-
-    const isFile: boolean = target.files!.length > 0;
-    if (isFile) {
-      fileReader = new FileReader();
-      fileReader.onloadend = handleFileRead;
-      fileReader.readAsText(target.files![0]);
-    }
+    fileReader.readAsText(file);
   };
 
   const handleDownloadClick = () =>

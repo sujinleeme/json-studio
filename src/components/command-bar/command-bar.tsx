@@ -8,6 +8,7 @@ import {
   DefaultButton,
   Dropdown,
   IDropdownOption,
+  IIconProps,
 } from "@fluentui/react";
 
 export interface CommandBarProps {
@@ -19,7 +20,7 @@ export interface CommandBarProps {
   onSchemaEditorChange?: () => void;
   onAutoPrettifyChange: () => void;
   onDownloadClick: () => void;
-  onUploadClick: (target: HTMLInputElement) => void;
+  onUploadClick: (fileContent: File) => void;
   isValidJson: boolean;
 }
 
@@ -31,6 +32,48 @@ const options: IDropdownOption[] = [
   { key: "draft-4", text: "Draft 4" },
   { key: "draft-3", text: "Draft 3" },
 ];
+
+interface FileUploaderProps {
+  onFileHandle: (fileContent: File) => void;
+}
+
+// Need to fix: hover is not working
+export const FileUploader: React.FC<FileUploaderProps> = ({ onFileHandle }) => {
+  const inputFileRef = useRef<HTMLInputElement>(null);
+
+  const handleUploadClick = () => {
+    if (inputFileRef.current) {
+      // upload the same file
+      inputFileRef.current.value = "";
+      inputFileRef.current.click();
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const fileUploaded = e.target.files[0];
+    onFileHandle(fileUploaded);
+  };
+
+  const uploadIcon: IIconProps = { iconName: "Upload" };
+
+  return (
+    <>
+      <CommandButton
+        iconProps={uploadIcon}
+        text="Upload"
+        onClick={handleUploadClick}
+      />
+      <input
+        ref={inputFileRef}
+        style={{ display: "none" }}
+        onChange={handleChange}
+        type="file"
+        accept="application/json"
+      />
+    </>
+  );
+};
 
 export const CommandBar: React.FC<CommandBarProps> = ({
   onMinifyClick,
@@ -44,34 +87,10 @@ export const CommandBar: React.FC<CommandBarProps> = ({
   isValidJson,
   isSchemaEditorOn,
 }) => {
-  const inputFileRef = useRef<HTMLInputElement>(null);
-
-  const handleOnChange = () => {
-    const target = inputFileRef.current;
-    if (!target) return;
-    onUploadClick(target);
-  };
-
   const leftItems: ICommandBarItemProps[] = [
     {
       key: "upload",
-      // name: 'Upload xml Document',
-      text: "Upload",
-      iconProps: { iconName: "Upload" },
-      onClick: handleOnChange,
-    },
-    {
-      key: "upload-input",
-      text: "Upload",
-      onRender: () => (
-        <input
-          ref={inputFileRef}
-          style={{ display: "none" }}
-          type="file"
-          accept="application/json"
-          onChange={handleOnChange}
-        />
-      ),
+      onRender: () => <FileUploader onFileHandle={onUploadClick} />,
     },
     {
       key: "download",
@@ -147,15 +166,13 @@ export const CommandBar: React.FC<CommandBarProps> = ({
       text: "Submit",
       // onClick: () => console.log("Info"),
       onRender: () => (
-        <div>
-          <DefaultButton
-            iconProps={{ iconName: "Save" }}
-            primary
-            disabled={isValidJson}
-            text="Submit"
-            allowDisabledFocus
-          />
-        </div>
+        <DefaultButton
+          iconProps={{ iconName: "Save" }}
+          primary
+          disabled={isValidJson}
+          text="Submit"
+          allowDisabledFocus
+        />
       ),
     },
     {
