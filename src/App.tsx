@@ -1,18 +1,15 @@
 import React from "react";
 
-import { Stack, IStackTokens, IStackStyles } from "@fluentui/react";
+import { Stack, IStackStyles } from "@fluentui/react";
 
 import { JSONEditor } from "./components/json-editor";
 import { TopBar } from "./components/top-bar";
 import { useToggle } from "./hooks";
 
-const wrapStackTokens: IStackTokens = { childrenGap: "30" };
-
 // Mutating styles definition
-const containerStackStyles: IStackStyles = {
+const stackStyles: IStackStyles = {
   root: {
-    // background: DefaultPalette.themeTertiary,
-    height: 800,
+    height: "100vh",
   },
 };
 
@@ -23,28 +20,23 @@ const App = (): JSX.Element => {
   const [isSchemaEditorOn, toggleASchemaEditorOn] = useToggle(false);
 
   return (
-    <div className="App">
-      <TopBar />
-      <Stack
-        wrap
-        horizontal
-        styles={containerStackStyles}
-        tokens={wrapStackTokens}
-      >
-        {/* {isSchemaEditorOn && (
-          <Stack.Item grow>
+    <Stack styles={stackStyles}>
+      <Stack.Item>
+        <TopBar />
+      </Stack.Item>
+      <Stack.Item align="stretch" grow>
+        {isSchemaEditorOn && (
+          <Stack.Item>
             <JSONEditor defaultValue={defaultValue} />
           </Stack.Item>
-        )} */}
-        <Stack.Item grow>
-          <JSONEditor
-            defaultValue={defaultValue}
-            isSchemaEditorOn={isSchemaEditorOn}
-            onSchemaEditorChange={toggleASchemaEditorOn}
-          />
-        </Stack.Item>
-      </Stack>
-    </div>
+        )}
+        <JSONEditor
+          defaultValue={defaultValue}
+          isSchemaEditorOn={isSchemaEditorOn}
+          onSchemaEditorChange={toggleASchemaEditorOn}
+        />
+      </Stack.Item>
+    </Stack>
   );
 };
 

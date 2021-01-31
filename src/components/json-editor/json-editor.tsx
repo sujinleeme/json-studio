@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 
+import { Stack, IStackStyles } from "@fluentui/react";
 import Editor, { OnMount, OnValidate } from "@monaco-editor/react";
 
 import { useToggle } from "../../hooks";
@@ -7,6 +8,12 @@ import { CommandBar } from "../command-bar";
 import { ErrorMessageBar } from "../error-message-bar";
 import { downloadJsonFile } from "./file";
 import { prettifyJsonString, minifyJsonString } from "./utils";
+
+const stackStyles: IStackStyles = {
+  root: {
+    height: "100%",
+  },
+};
 
 interface JSONEditorProps {
   defaultValue?: string;
@@ -94,35 +101,42 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     content && isValidJson && downloadJsonFile(content);
 
   return (
-    <div>
-      <CommandBar
-        isValidJson={isValidJson}
-        isAutoPrettifyOn={isAutoPrettifyOn}
-        isSchemaEditorOn={isSchemaEditorOn}
-        onAutoPrettifyChange={toggleAutoPrettifyOn}
-        onClearClick={handleClearClick}
-        onDownloadClick={handleDownloadClick}
-        onSchemaEditorChange={onSchemaEditorChange}
-        onMinifyClick={handleMinifyClick}
-        onPrettifyClick={handlePrettifyClick}
-        onUploadClick={handleUploadClick}
-      />
-      <Editor
-        height="500px"
-        defaultLanguage="json"
-        options={{
-          // formatOnPaste: true is working but the width replied on unformatted string's width
-          automaticLayout: true,
-          scrollBeyondLastLine: false,
-        }}
-        beforeMount={handleEditorBeforeMount}
-        defaultValue={defaultValue}
-        onMount={handleEditorDidMount}
-        onChange={handleEditorChange}
-        onValidate={handleEditorValidation}
-        value={content}
-      />
-      {errors.length > 0 && <ErrorMessageBar errors={errors} />}
-    </div>
+    <Stack styles={stackStyles}>
+      <Stack.Item>
+        <CommandBar
+          isValidJson={isValidJson}
+          isAutoPrettifyOn={isAutoPrettifyOn}
+          isSchemaEditorOn={isSchemaEditorOn}
+          onAutoPrettifyChange={toggleAutoPrettifyOn}
+          onClearClick={handleClearClick}
+          onDownloadClick={handleDownloadClick}
+          onSchemaEditorChange={onSchemaEditorChange}
+          onMinifyClick={handleMinifyClick}
+          onPrettifyClick={handlePrettifyClick}
+          onUploadClick={handleUploadClick}
+        />
+      </Stack.Item>
+      <Stack styles={stackStyles}>
+        <Stack.Item grow align="stretch">
+          <Editor
+            defaultLanguage="json"
+            options={{
+              // formatOnPaste: true is working but the width replied on unformatted string's width
+              automaticLayout: true,
+              scrollBeyondLastLine: false,
+            }}
+            beforeMount={handleEditorBeforeMount}
+            defaultValue={defaultValue}
+            onMount={handleEditorDidMount}
+            onChange={handleEditorChange}
+            onValidate={handleEditorValidation}
+            value={content}
+          />
+        </Stack.Item>
+        <Stack.Item>
+          <ErrorMessageBar errors={errors} />
+        </Stack.Item>
+      </Stack>
+    </Stack>
   );
 };
