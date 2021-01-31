@@ -34,6 +34,7 @@
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "react-textarea-autosize": "^8.3.0",
+    "resize-observer-polyfill": "^1.5.1",
     "typescript": "^4.0.3",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4"
@@ -84,6 +85,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "@types/resize-observer-browser": "^0.1.5",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
