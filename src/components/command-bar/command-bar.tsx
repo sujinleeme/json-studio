@@ -107,17 +107,17 @@ export const CommandBar: React.FC<CommandBarProps> = ({
       onClick: onClearClick,
     },
     {
-      key: "prettify",
-      text: "Prettify",
-      iconProps: { iconName: "MaximumValue" },
-      onClick: onPrettifyClick,
-      disabled: !isValidJson,
-    },
-    {
       key: "minify",
       text: "Minify",
       iconProps: { iconName: "MinimumValue" },
       onClick: onMinifyClick,
+      disabled: !isValidJson,
+    },
+    {
+      key: "prettify",
+      text: "Prettify",
+      iconProps: { iconName: "MaximumValue" },
+      onClick: onPrettifyClick,
       disabled: !isValidJson,
     },
     {
@@ -169,7 +169,7 @@ export const CommandBar: React.FC<CommandBarProps> = ({
         <DefaultButton
           iconProps={{ iconName: "Save" }}
           primary
-          disabled={isValidJson}
+          disabled={!isValidJson}
           text="Submit"
           allowDisabledFocus
         />
