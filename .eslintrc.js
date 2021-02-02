@@ -9,6 +9,11 @@ module.exports = {
     // I prefer to use named export
     // See: https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-named-as-default.md#importno-named-as-default
     "import/prefer-default-export": 0,
+
+    // Ignore test files per the docs
+    // See: https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md#options
+    "import/no-extraneous-dependencies": [
+      "error", {"devDependencies": ["**/*.test.+(ts|tsx|js|jsx)", "**/*.spec.+(ts|tsx|js|jsx)"]}],
     "import/no-named-as-default": 0,
 
     // See: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-non-null-assertion.md
