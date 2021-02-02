@@ -54,6 +54,23 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.getModel().updateOptions({ tabSize: 2, insertSpaces: false });
+    // eslint-disable-next-line
+    const editorEl = editor._domElement;
+    window.addEventListener("resize", () => {
+      // automaticLayout isn't working
+      // https://github.com/suren-atoyan/monaco-react/issues/89#issuecomment-666581193
+      // clear current layout
+      editor.layout({
+        width: "auto",
+        height: "auto",
+      });
+
+      const { width, height } = editorEl.getBoundingClientRect();
+      editor.layout({
+        width,
+        height,
+      });
+    });
   };
 
   const handleEditorChange = (value?: string) =>
