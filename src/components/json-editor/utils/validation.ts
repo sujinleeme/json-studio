@@ -1,5 +1,5 @@
 import { ajv, AjvErrorObject } from "./ajv";
-import { parseString } from "./utils";
+import { parseString } from "./json-string";
 
 export enum JsonErrorType {
   Schema = "schema",

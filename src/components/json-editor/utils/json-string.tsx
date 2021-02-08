@@ -1,4 +1,4 @@
-import jsonlint from "../../assets/jsonlint";
+import jsonlint from "../../../assets/jsonlint";
 
 /**
  * Minify a Json string

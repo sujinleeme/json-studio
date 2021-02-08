@@ -2,13 +2,13 @@ import React from "react";
 
 import { CommandBar, ICommandBarItemProps, Text } from "@fluentui/react";
 
-export const TopBar = (): JSX.Element => {
+export const AppBar = (): JSX.Element => {
   const items: ICommandBarItemProps[] = [
     {
       key: "title",
       text: "title",
       onRender: () => (
-        <Text variant="large" nowrap block>
+        <Text variant="xLarge" nowrap block>
           JSON Online Editor
         </Text>
       ),
@@ -21,7 +21,7 @@ export const TopBar = (): JSX.Element => {
           alignItems: "center",
         },
       }}
-      ariaLabel="service title"
+      ariaLabel="app title"
       items={items}
     />
   );

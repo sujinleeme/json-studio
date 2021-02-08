@@ -1,17 +1,25 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Stack, IStackStyles } from "@fluentui/react";
 import Editor, { OnMount, OnValidate } from "@monaco-editor/react";
 
 import { useToggle } from "../../hooks";
-import { CommandBar } from "../command-bar";
-import { ErrorMessageBar } from "../error-message-bar";
-import { downloadJsonFile } from "./file";
-import { prettifyJsonString, minifyJsonString } from "./utils";
+import { ErrorMessageBar } from "./components/error-message-bar";
+import { TitleBar } from "./components/title-bar";
+import { ToolBar } from "./components/tool-bar";
+import { BorderLine } from "./styles";
+import {
+  downloadJsonFile,
+  prettifyJsonString,
+  minifyJsonString,
+} from "./utils";
 
 const stackStyles: IStackStyles = {
   root: {
     height: "100%",
+    borderTop: BorderLine,
+    borderRight: BorderLine,
+    borderBottom: BorderLine,
   },
 };
 
@@ -19,18 +27,41 @@ interface JSONEditorProps {
   defaultValue?: string;
   onSchemaEditorChange?: () => void;
   isSchemaEditorOn?: boolean;
+  title?: string;
 }
 
 export const JSONEditor: React.FC<JSONEditorProps> = ({
   isSchemaEditorOn = false,
   defaultValue,
   onSchemaEditorChange,
+  title,
 }): JSX.Element => {
   const [errors, setErrors] = useState<string[]>([]);
   const [content, setContent] = useState<string | undefined>(undefined);
   const [isAutoPrettifyOn, toggleAutoPrettifyOn] = useToggle(false);
   const [isValidJson, setIsValidJson] = useState<boolean>(false);
   const editorRef = useRef(null);
+
+  const updateEditorLayout = () => {
+    // eslint-disable-next-line
+    const editor: any = editorRef.current;
+    if (!editor) return;
+    // eslint-disable-next-line
+    const editorEl = editor._domElement;
+    editor.layout({
+      width: "auto",
+      height: "auto",
+    });
+    const { width, height } = editorEl.getBoundingClientRect();
+    editor.layout({
+      width,
+      height,
+    });
+  };
+
+  useEffect(() => {
+    updateEditorLayout();
+  }, [isSchemaEditorOn]);
 
   const handleEditorWithoutPrettify = (value?: string) => setContent(value);
 
@@ -43,7 +74,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
       // eslint-disable-next-line
       const editor: any = editorRef.current;
       // It might be a  @monaco-editor/react's problem.
-      // need to set new value inside. otherwise, it can't resize horizontal slider's  width.
+      // It needs to set a new value inside. otherwise, it can't resize the horizontal slider's width.
       if (!editor) return;
       editor.setValue(json);
     }
@@ -54,22 +85,12 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.getModel().updateOptions({ tabSize: 2, insertSpaces: false });
-    // eslint-disable-next-line
-    const editorEl = editor._domElement;
+
     window.addEventListener("resize", () => {
       // automaticLayout isn't working
       // https://github.com/suren-atoyan/monaco-react/issues/89#issuecomment-666581193
       // clear current layout
-      editor.layout({
-        width: "auto",
-        height: "auto",
-      });
-
-      const { width, height } = editorEl.getBoundingClientRect();
-      editor.layout({
-        width,
-        height,
-      });
+      updateEditorLayout();
     });
   };
 
@@ -113,11 +134,15 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
 
   return (
     <Stack styles={stackStyles}>
+      {title && (
+        <Stack.Item>
+          <TitleBar title={title} />
+        </Stack.Item>
+      )}
       <Stack.Item>
-        <CommandBar
+        <ToolBar
           isValidJson={isValidJson}
           isAutoPrettifyOn={isAutoPrettifyOn}
-          isSchemaEditorOn={isSchemaEditorOn}
           onAutoPrettifyChange={toggleAutoPrettifyOn}
           onClearClick={handleClearClick}
           onDownloadClick={handleDownloadClick}

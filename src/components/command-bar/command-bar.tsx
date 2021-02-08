@@ -1,27 +1,19 @@
-import React, { useRef } from "react";
+import React from "react";
 
 import {
-  CommandBar as CommandBarComponent,
-  ICommandBarItemProps,
+  CommandBar,
   CommandButton,
   Checkbox,
-  DefaultButton,
+  // DefaultButton,
   Dropdown,
+  ICommandBarItemProps,
   IDropdownOption,
-  IIconProps,
+  // IIconProps,
 } from "@fluentui/react";
 
-export interface CommandBarProps {
-  onMinifyClick: () => void;
-  onPrettifyClick: () => void;
-  isAutoPrettifyOn: boolean;
+export interface ToolBarProps {
   isSchemaEditorOn?: boolean;
-  onClearClick: () => void;
   onSchemaEditorChange?: () => void;
-  onAutoPrettifyChange: () => void;
-  onDownloadClick: () => void;
-  onUploadClick: (fileContent: File) => void;
-  isValidJson: boolean;
 }
 
 const options: IDropdownOption[] = [
@@ -33,122 +25,27 @@ const options: IDropdownOption[] = [
   { key: "draft-3", text: "Draft 3" },
 ];
 
-interface FileUploaderProps {
-  onFileHandle: (fileContent: File) => void;
-}
-
-// Need to fix: hover is not working
-export const FileUploader: React.FC<FileUploaderProps> = ({ onFileHandle }) => {
-  const inputFileRef = useRef<HTMLInputElement>(null);
-
-  const handleUploadClick = () => {
-    if (inputFileRef.current) {
-      // upload the same file
-      inputFileRef.current.value = "";
-      inputFileRef.current.click();
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const fileUploaded = e.target.files[0];
-    onFileHandle(fileUploaded);
-  };
-
-  const uploadIcon: IIconProps = { iconName: "Upload" };
-
-  return (
-    <>
-      <CommandButton
-        iconProps={uploadIcon}
-        text="Upload"
-        onClick={handleUploadClick}
-      />
-      <input
-        ref={inputFileRef}
-        style={{ display: "none" }}
-        onChange={handleChange}
-        type="file"
-        accept="application/json"
-      />
-    </>
-  );
-};
-
-export const CommandBar: React.FC<CommandBarProps> = ({
-  onMinifyClick,
-  onPrettifyClick,
-  isAutoPrettifyOn,
-  onAutoPrettifyChange,
-  onClearClick,
-  onDownloadClick,
+export const CommandBarComponent: React.FC<ToolBarProps> = ({
   onSchemaEditorChange,
-  onUploadClick,
-  isValidJson,
   isSchemaEditorOn,
 }) => {
   const leftItems: ICommandBarItemProps[] = [
     {
-      key: "upload",
-      onRender: () => <FileUploader onFileHandle={onUploadClick} />,
-    },
-    {
-      key: "download",
-      text: "Download",
-      ariaLabel: "Grid view",
-      iconProps: { iconName: "Download" },
-      onClick: onDownloadClick,
-      disabled: !isValidJson,
-    },
-    {
-      key: "clear",
-      text: "Clear",
-      iconProps: { iconName: "Delete" },
-      onClick: onClearClick,
-    },
-    {
-      key: "minify",
-      text: "Minify",
-      iconProps: { iconName: "MinimumValue" },
-      onClick: onMinifyClick,
-      disabled: !isValidJson,
-    },
-    {
-      key: "prettify",
-      text: "Prettify",
-      iconProps: { iconName: "MaximumValue" },
-      onClick: onPrettifyClick,
-      disabled: !isValidJson,
-    },
-    {
-      key: "auto-prettify",
+      key: "use-json-schema",
       onRender: () => (
         <CommandButton>
           <Checkbox
-            label="Auto Prettify"
-            onChange={onAutoPrettifyChange}
-            checked={isAutoPrettifyOn}
+            label="Use JSON Schema"
+            onChange={onSchemaEditorChange}
+            checked={isSchemaEditorOn}
           />
         </CommandButton>
       ),
     },
     {
-      key: "use-json-schema",
-      onRender: () =>
-        onSchemaEditorChange && (
-          <CommandButton>
-            <Checkbox
-              label="Use JSON Schema"
-              onChange={onSchemaEditorChange}
-              checked={isSchemaEditorOn}
-            />
-          </CommandButton>
-        ),
-    },
-    {
       key: "show-schema",
       onRender: () =>
-        onSchemaEditorChange && (
+        isSchemaEditorOn && (
           <CommandButton>
             <Dropdown
               placeholder="Select JSON Schema"
@@ -160,42 +57,16 @@ export const CommandBar: React.FC<CommandBarProps> = ({
     },
   ];
 
-  const rightItems: ICommandBarItemProps[] = [
-    {
-      key: "submit",
-      text: "Submit",
-      // onClick: () => console.log("Info"),
-      onRender: () => (
-        <DefaultButton
-          iconProps={{ iconName: "Save" }}
-          primary
-          disabled={!isValidJson}
-          text="Submit"
-          allowDisabledFocus
-        />
-      ),
-    },
-    {
-      key: "info",
-      text: "Info",
-      // This needs an ariaLabel since it's icon-only
-      ariaLabel: "Info",
-      iconOnly: true,
-      iconProps: { iconName: "Info" },
-      // onClick: () => console.log("Info"),
-    },
-  ];
-
   return (
     <div>
-      <CommandBarComponent
+      <CommandBar
         styles={{
           root: {
             alignItems: "center",
           },
         }}
         items={leftItems}
-        farItems={rightItems}
+        // farItems={rightItems}
         ariaLabel="json content commands"
       />
     </div>

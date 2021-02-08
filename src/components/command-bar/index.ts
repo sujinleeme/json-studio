@@ -1,1 +1,1 @@
-export { CommandBar } from "./command-bar";
+export { CommandBarComponent as CommandBar } from "./command-bar";

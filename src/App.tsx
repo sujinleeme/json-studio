@@ -1,16 +1,38 @@
 import React from "react";
 
-import { Stack, IStackStyles } from "@fluentui/react";
+import { Stack, IStackStyles, mergeStyleSets } from "@fluentui/react";
 
+import { AppBar } from "./components/app-bar";
+import { CommandBar } from "./components/command-bar";
 import { JSONEditor } from "./components/json-editor";
-import { TopBar } from "./components/top-bar";
 import { useToggle } from "./hooks";
 
 // Mutating styles definition
-const stackStyles: IStackStyles = {
+const containerStyle: IStackStyles = {
   root: {
     height: "100vh",
   },
+};
+
+const editorStackStyle: IStackStyles = {
+  root: {
+    height: "100%",
+  },
+};
+
+export const getEditorClassNames = (isFullWidth: boolean) => {
+  return mergeStyleSets({
+    root: [
+      {
+        width: "50%",
+        height: "100%",
+      },
+      isFullWidth && {
+        width: "100%",
+        height: "100%",
+      },
+    ],
+  });
 };
 
 const defaultValue =
@@ -20,22 +42,29 @@ const App = (): JSX.Element => {
   const [isSchemaEditorOn, toggleASchemaEditorOn] = useToggle(false);
 
   return (
-    <Stack styles={stackStyles}>
+    <Stack styles={containerStyle}>
       <Stack.Item>
-        <TopBar />
-      </Stack.Item>
-      <Stack.Item align="stretch" grow>
-        {isSchemaEditorOn && (
-          <Stack.Item>
-            <JSONEditor defaultValue={defaultValue} />
-          </Stack.Item>
-        )}
-        <JSONEditor
-          defaultValue={defaultValue}
+        <AppBar />
+        <CommandBar
           isSchemaEditorOn={isSchemaEditorOn}
           onSchemaEditorChange={toggleASchemaEditorOn}
         />
       </Stack.Item>
+      <Stack wrap horizontal grow styles={editorStackStyle}>
+        {isSchemaEditorOn && (
+          <Stack.Item styles={getEditorClassNames(!isSchemaEditorOn)}>
+            <JSONEditor title="Schema" />
+          </Stack.Item>
+        )}
+        <Stack.Item styles={getEditorClassNames(!isSchemaEditorOn)}>
+          <JSONEditor
+            title={isSchemaEditorOn ? "Input JSON" : ""}
+            defaultValue={defaultValue}
+            isSchemaEditorOn={isSchemaEditorOn}
+            onSchemaEditorChange={toggleASchemaEditorOn}
+          />
+        </Stack.Item>
+      </Stack>
     </Stack>
   );
 };

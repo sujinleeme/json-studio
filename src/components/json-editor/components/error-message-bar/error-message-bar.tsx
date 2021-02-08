@@ -13,6 +13,8 @@ import {
 } from "@fluentui/react";
 import { v4 as uuid } from "uuid";
 
+import { BorderLine } from "../../styles";
+
 interface ErrorMessageBarProps {
   errors: string[];
 }
@@ -25,6 +27,13 @@ const classNames = mergeStyleSets({
   },
 });
 
+const headerStyle = {
+  root: {
+    padding: 0,
+    borderTop: BorderLine,
+  },
+};
+
 const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (
   props,
   defaultRender
@@ -34,6 +43,7 @@ const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (
     <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced>
       {defaultRender!({
         ...props,
+        styles: headerStyle,
       })}
     </Sticky>
   );
@@ -59,16 +69,17 @@ export const ErrorMessageBar: React.FC<ErrorMessageBarProps> = ({
   ];
 
   return (
-    <div className={classNames.wrapper}>
-      <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
-        <DetailsList
-          compact
-          items={items}
-          columns={columns}
-          checkboxVisibility={2}
-          onRenderDetailsHeader={onRenderDetailsHeader}
-        />
-      </ScrollablePane>
-    </div>
+    <ScrollablePane
+      scrollbarVisibility={ScrollbarVisibility.auto}
+      className={classNames.wrapper}
+    >
+      <DetailsList
+        compact
+        items={items}
+        columns={columns}
+        checkboxVisibility={2}
+        onRenderDetailsHeader={onRenderDetailsHeader}
+      />
+    </ScrollablePane>
   );
 };
