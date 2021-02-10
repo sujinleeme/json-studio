@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Stack, IStackStyles, mergeStyleSets } from "@fluentui/react";
 
@@ -6,7 +6,7 @@ import { AppBar } from "./components/app-bar";
 import { CommandBar } from "./components/command-bar";
 import { JSONEditor } from "./components/json-editor";
 import { useToggle } from "./hooks";
-
+import { mockData } from "./mock-data";
 // Mutating styles definition
 const containerStyle: IStackStyles = {
   root: {
@@ -35,11 +35,15 @@ export const getEditorClassNames = (isFullWidth: boolean) => {
   });
 };
 
-const defaultValue =
-  '{"glossary":{"title":"example glossary","GlossDiv":{"title":"S","GlossList":{"GlossEntry":{"ID":"SGML","SortAs":"SGML","GlossTerm":"Standard Generalized Markup Language","Acronym":"SGML","Abbrev":"ISO 8879:1986","GlossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","GlossSeeAlso":["GML","XML"]},"GlossSee":"markup"}}}}}';
-
 const App = (): JSX.Element => {
   const [isSchemaEditorOn, toggleASchemaEditorOn] = useToggle(false);
+  const [isSchemaSampleDataOn, toggleSchemaSampleDataOn] = useToggle(false);
+
+  useEffect(() => {
+    if (!isSchemaEditorOn && isSchemaSampleDataOn) {
+      toggleSchemaSampleDataOn();
+    }
+  }, [isSchemaEditorOn, isSchemaSampleDataOn, toggleSchemaSampleDataOn]);
 
   return (
     <Stack styles={containerStyle}>
@@ -48,20 +52,28 @@ const App = (): JSX.Element => {
         <CommandBar
           isSchemaEditorOn={isSchemaEditorOn}
           onSchemaEditorChange={toggleASchemaEditorOn}
+          isSchemaSampleDataOn={isSchemaSampleDataOn}
+          onSchemaSampleDataOn={toggleSchemaSampleDataOn}
         />
       </Stack.Item>
       <Stack wrap horizontal grow styles={editorStackStyle}>
         {isSchemaEditorOn && (
           <Stack.Item styles={getEditorClassNames(!isSchemaEditorOn)}>
-            <JSONEditor title="Schema" />
+            <JSONEditor
+              title="Schema"
+              path="schema.json"
+              defaultValue={isSchemaSampleDataOn ? mockData.schema : "schema"}
+            />
           </Stack.Item>
         )}
         <Stack.Item styles={getEditorClassNames(!isSchemaEditorOn)}>
           <JSONEditor
             title={isSchemaEditorOn ? "Input JSON" : ""}
-            defaultValue={defaultValue}
-            isSchemaEditorOn={isSchemaEditorOn}
-            onSchemaEditorChange={toggleASchemaEditorOn}
+            path="input_json.json"
+            schemaValue={isSchemaSampleDataOn ? mockData.schema : undefined}
+            defaultValue={
+              isSchemaSampleDataOn ? mockData.jsonInput : mockData.jsonInput
+            }
           />
         </Stack.Item>
       </Stack>

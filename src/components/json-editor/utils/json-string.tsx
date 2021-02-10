@@ -22,6 +22,19 @@ export const prettifyJsonString = (jsonString: string): string => {
   }
 };
 
+export const parseJsonSchemaString = (
+  jsonString: string
+): Record<string, unknown> => {
+  try {
+    return JSON.parse(jsonString);
+  } catch (err) {
+    // try to throw a more detailed error message using validate
+    // validateString(jsonString);
+    // rethrow the original error
+    return {};
+  }
+};
+
 /**
  * Validate a string containing a JSON object
  * This method uses JSONLint to validate the String. If JSONLint is not

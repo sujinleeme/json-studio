@@ -13,7 +13,6 @@ export interface ToolBarProps {
   onPrettifyClick: () => void;
   isAutoPrettifyOn: boolean;
   onClearClick: () => void;
-  onSchemaEditorChange?: () => void;
   onAutoPrettifyChange: () => void;
   onDownloadClick: () => void;
   onUploadClick: (fileContent: File) => void;

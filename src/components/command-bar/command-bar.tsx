@@ -5,29 +5,22 @@ import {
   CommandButton,
   Checkbox,
   // DefaultButton,
-  Dropdown,
   ICommandBarItemProps,
-  IDropdownOption,
   // IIconProps,
 } from "@fluentui/react";
 
-export interface ToolBarProps {
-  isSchemaEditorOn?: boolean;
-  onSchemaEditorChange?: () => void;
+export interface CommandBarComponentProps {
+  isSchemaEditorOn: boolean;
+  onSchemaEditorChange: () => void;
+  isSchemaSampleDataOn: boolean;
+  onSchemaSampleDataOn: () => void;
 }
 
-const options: IDropdownOption[] = [
-  { key: "2019-09", text: "2019-09" },
-  { key: "draft-7", text: "Draft 7" },
-  { key: "draft-6", text: "Draft 6" },
-  { key: "draft-5", text: "Draft 5" },
-  { key: "draft-4", text: "Draft 4" },
-  { key: "draft-3", text: "Draft 3" },
-];
-
-export const CommandBarComponent: React.FC<ToolBarProps> = ({
-  onSchemaEditorChange,
+export const CommandBarComponent: React.FC<CommandBarComponentProps> = ({
   isSchemaEditorOn,
+  onSchemaEditorChange,
+  isSchemaSampleDataOn,
+  onSchemaSampleDataOn,
 }) => {
   const leftItems: ICommandBarItemProps[] = [
     {
@@ -43,14 +36,14 @@ export const CommandBarComponent: React.FC<ToolBarProps> = ({
       ),
     },
     {
-      key: "show-schema",
+      key: "use-json-schema-sample-data",
       onRender: () =>
         isSchemaEditorOn && (
           <CommandButton>
-            <Dropdown
-              placeholder="Select JSON Schema"
-              options={options}
-              // styles={dropdownStyles}
+            <Checkbox
+              label="Use Sample Schema Data"
+              onChange={onSchemaSampleDataOn}
+              checked={isSchemaSampleDataOn}
             />
           </CommandButton>
         ),
