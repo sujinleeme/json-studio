@@ -24,7 +24,7 @@
   "homepage": "http://sujinleeme.github.io/react-json-editor",
   "dependencies": {
     "@fluentui/react": "^7.158.1",
-    "@monaco-editor/react": "^4.0.7",
+    "@monaco-editor/react": "^4.0.9",
     "ajv": "^7.0.3",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
