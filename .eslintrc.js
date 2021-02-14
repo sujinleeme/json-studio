@@ -22,6 +22,9 @@ module.exports = {
     // See: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/explicit-function-return-type.md
     "@typescript-eslint/explicit-function-return-type": 0,
 
+    // See: https://eslint.org/docs/rules/no-unused-expressions
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }],
+
     // First import is the React package, just to follow the standard convention.
     // See: https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/order.md
     "import/order": [
