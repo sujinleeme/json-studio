@@ -99,9 +99,9 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
 
   const handleEditorUpdateValue = useCallback((value?: string) => {
     const editor = editorRef.current;
-    if (!editor || !value) return;
-    editor.setValue(value);
-    editor.getAction("editor.action.formatDocument").run();
+    if (!editor) return;
+    editor.setValue(value || "");
+    value && editor.getAction("editor.action.formatDocument").run();
   }, []);
 
   const handleClearClick = () => editorRef.current?.setValue("");
