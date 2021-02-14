@@ -5,8 +5,8 @@ import { Stack, IStackStyles, mergeStyleSets } from "@fluentui/react";
 import { AppBar } from "./components/app-bar";
 import { CommandBar } from "./components/command-bar";
 import { JSONEditor } from "./components/json-editor";
+import { mockData } from "./components/json-editor/mock-data";
 import { useToggle } from "./hooks";
-import { mockData } from "./mock-data";
 // Mutating styles definition
 const containerStyle: IStackStyles = {
   root: {
@@ -62,7 +62,7 @@ const App = (): JSX.Element => {
             <JSONEditor
               title="Schema"
               path="schema.json"
-              defaultValue={isSchemaSampleDataOn ? mockData.schema : "schema"}
+              defaultValue={isSchemaSampleDataOn ? mockData.schema : undefined}
             />
           </Stack.Item>
         )}
@@ -71,9 +71,7 @@ const App = (): JSX.Element => {
             title={isSchemaEditorOn ? "Input JSON" : ""}
             path="input_json.json"
             schemaValue={isSchemaSampleDataOn ? mockData.schema : undefined}
-            defaultValue={
-              isSchemaSampleDataOn ? mockData.jsonInput : mockData.jsonInput
-            }
+            defaultValue={isSchemaSampleDataOn ? mockData.jsonInput : undefined}
           />
         </Stack.Item>
       </Stack>

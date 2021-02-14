@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Stack, IStackStyles } from "@fluentui/react";
-import Editor, { BeforeMount, OnMount, OnValidate } from "@monaco-editor/react";
+import Editor, {
+  useMonaco,
+  BeforeMount,
+  OnMount,
+  OnValidate,
+} from "@monaco-editor/react";
+import * as Monaco from "monaco-editor/esm/vs/editor/editor.api";
 
 import { useToggle } from "../../hooks";
 import { ErrorMessageBar } from "./components/error-message-bar";
@@ -10,8 +16,8 @@ import { ToolBar } from "./components/tool-bar";
 import { BorderLine } from "./styles";
 import {
   downloadJsonFile,
-  prettifyJsonString,
   minifyJsonString,
+  prettifyJsonString,
   parseJsonSchemaString,
 } from "./utils";
 
@@ -31,40 +37,47 @@ interface JSONEditorProps {
   path?: string;
 }
 
+interface RefObject extends Monaco.editor.ICodeEditor {
+  _domElement?: HTMLElement;
+}
+
 export const JSONEditor: React.FC<JSONEditorProps> = ({
   defaultValue,
   schemaValue,
   title,
   path,
 }): JSX.Element => {
+  const monaco = useMonaco();
+
   const [errors, setErrors] = useState<string[]>([]);
-  const [content, setContent] = useState<string | undefined>(undefined);
   const [isAutoPrettifyOn, toggleAutoPrettifyOn] = useToggle(false);
   const [isValidJson, setIsValidJson] = useState<boolean>(false);
-  const editorRef = useRef(null);
-  const monacoRef = useRef(null);
+  const editorRef = useRef<RefObject | null>(null);
 
   const updateEditorLayout = useCallback(() => {
+    // Type BUG: editor.IDimension.width & editor.IDimension.height should be "number"
+    // but it needs to have "auto" otherwise layout can't be updated;
     // eslint-disable-next-line
     const editor: any = editorRef.current;
     if (!editor) return;
-    // eslint-disable-next-line
-    const editorEl = editor._domElement;
+    // Initialize layout's width and height
     editor.layout({
       width: "auto",
       height: "auto",
     });
+    // eslint-disable-next-line
+    const editorEl = editor._domElement;
+    if (!editorEl) return;
     const { width, height } = editorEl.getBoundingClientRect();
+    // update responsive width and height
     editor.layout({
       width,
       height,
     });
   }, []);
 
-  const updateJsonSchemas = useCallback(() => {
-    const monaco: any = monacoRef.current;
-    if (!monaco) return;
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+  const handleJsonSchemasUpdate = useCallback(() => {
+    monaco?.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
       schemas: schemaValue
         ? [
@@ -78,39 +91,27 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
           ]
         : undefined,
     });
-  }, [schemaValue]);
+  }, [schemaValue, monaco]);
 
-  const handleEditorWithoutPrettify = (value?: string) => {
-    setContent(value);
-  };
-
-  const handleEditorPrettify = useCallback((value?: string) => {
-    console.log("pretty=======", value);
-    if (!value) {
-      setContent(undefined);
-    } else {
-      console.log("save to editor");
-      // eslint-disable-next-line
-      const json = prettifyJsonString(value);
-      setContent(json);
-      const editor: any = editorRef.current;
-      if (!editor) return;
-      // It might be a  @monaco-editor/react's problem.
-      // It needs to set a new value inside. otherwise, it can't resize the horizontal slider's width.
-      editor.setValue(json);
-    }
+  const handleEditorPrettify = useCallback(() => {
+    editorRef.current?.getAction("editor.action.formatDocument").run();
   }, []);
 
-  const handleEditorWillMount: BeforeMount = (monaco) => {
-    monacoRef.current = monaco;
-    updateJsonSchemas();
-    handleEditorPrettify(defaultValue);
-  };
+  const handleEditorUpdateValue = useCallback((value?: string) => {
+    const editor = editorRef.current;
+    if (!editor || !value) return;
+    editor.setValue(value);
+    editor.getAction("editor.action.formatDocument").run();
+  }, []);
+
+  const handleClearClick = () => editorRef.current?.setValue("");
+
+  const handleEditorWillMount: BeforeMount = () => handleJsonSchemasUpdate();
 
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
 
-    editor.getModel().updateOptions({ tabSize: 2, insertSpaces: false });
+    editor.getModel()?.updateOptions({ tabSize: 2, insertSpaces: false });
 
     window.addEventListener("resize", () => {
       // automaticLayout isn't working
@@ -118,61 +119,58 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
       // clear current layout
       updateEditorLayout();
     });
+
+    // need to use formatted prettify json string
+    defaultValue && handleEditorUpdateValue(prettifyJsonString(defaultValue));
   };
 
-  const handleEditorChange = useCallback(
-    (value?: string) =>
-      isAutoPrettifyOn
-        ? handleEditorPrettify(value)
-        : handleEditorWithoutPrettify(value),
-    [isAutoPrettifyOn, handleEditorPrettify]
-  );
+  useEffect(() => {
+    handleEditorUpdateValue(defaultValue);
+  }, [defaultValue, handleEditorUpdateValue]);
 
   useEffect(() => {
-    handleEditorPrettify(defaultValue);
-  }, [defaultValue, handleEditorPrettify]);
+    handleJsonSchemasUpdate();
+  }, [schemaValue, handleJsonSchemasUpdate]);
 
   useEffect(() => {
-    updateJsonSchemas();
-  }, [schemaValue, updateJsonSchemas]);
+    isAutoPrettifyOn && handleEditorPrettify();
+  }, [isAutoPrettifyOn, handleEditorPrettify]);
 
-  const handleClearClick = () => setContent(undefined);
-
-  const handleEditorValidation: OnValidate = useCallback(
-    (markers) => {
-      console.log(markers);
-      const errorMessage = markers.map(
-        ({ startLineNumber, message }) => `line ${startLineNumber}: ${message}`
-      );
-      console.log(errorMessage, content);
-      const hasContent: boolean = !!content && content.length > 0;
-      const hasError: boolean = errorMessage.length > 0;
-      setIsValidJson(hasContent && !hasError);
-      setErrors(errorMessage);
-    },
-    [content]
-  );
+  const handleEditorValidation: OnValidate = useCallback((markers) => {
+    const errorMessage = markers.map(
+      ({ startLineNumber, message }) => `line ${startLineNumber}: ${message}`
+    );
+    const hasContent = editorRef.current?.getValue();
+    const hasError: boolean = errorMessage.length > 0;
+    setIsValidJson(!!hasContent && !hasError);
+    setErrors(errorMessage);
+  }, []);
 
   const handleMinifyClick = () => {
-    const minifyJson: string | undefined = content
-      ? minifyJsonString(content)
-      : content;
-    handleEditorWithoutPrettify(minifyJson);
+    const editor = editorRef.current;
+    if (!editor) return;
+    const value = editor.getValue();
+    const minifiedValue = minifyJsonString(value);
+    editor.setValue(minifiedValue);
   };
-
-  const handlePrettifyClick = () => handleEditorPrettify(content);
 
   const handleUploadClick = (file: File) => {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       const result = fileReader.result as string;
-      handleEditorPrettify(result);
+      handleEditorUpdateValue(result);
     };
     fileReader.readAsText(file);
   };
 
-  const handleDownloadClick = () =>
-    content && isValidJson && downloadJsonFile(content);
+  const handleDownloadClick = () => {
+    const value = editorRef.current?.getValue();
+    value && downloadJsonFile(value);
+  };
+
+  const handleEditorChange = useCallback(() => {
+    isAutoPrettifyOn && handleEditorPrettify();
+  }, [isAutoPrettifyOn, handleEditorPrettify]);
 
   return (
     <Stack styles={stackStyles}>
@@ -189,7 +187,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
           onClearClick={handleClearClick}
           onDownloadClick={handleDownloadClick}
           onMinifyClick={handleMinifyClick}
-          onPrettifyClick={handlePrettifyClick}
+          onPrettifyClick={handleEditorPrettify}
           onUploadClick={handleUploadClick}
         />
       </Stack.Item>
@@ -199,15 +197,17 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
             language="json"
             path={path}
             options={{
-              // formatOnPaste: true is working but the width replied on unformatted string's width
               automaticLayout: true,
+              autoClosingBrackets: "always",
+              autoClosingQuotes: "always",
+              formatOnPaste: true,
+              formatOnType: true,
               scrollBeyondLastLine: false,
             }}
             onMount={handleEditorDidMount}
             onChange={handleEditorChange}
             beforeMount={handleEditorWillMount}
             onValidate={handleEditorValidation}
-            value={content}
           />
         </Stack.Item>
         <Stack.Item>

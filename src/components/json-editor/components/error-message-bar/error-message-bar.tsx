@@ -60,7 +60,7 @@ export const ErrorMessageBar: React.FC<ErrorMessageBarProps> = ({
   const columns: IColumn[] = [
     {
       key: "problems",
-      name: "Problems",
+      name: `Problems (${errors.length})`,
       fieldName: "problems",
       minWidth: 300,
       maxWidth: 300,

@@ -95,14 +95,14 @@ export const ToolBar: React.FC<ToolBarProps> = ({
       text: "Minify",
       iconProps: { iconName: "MinimumValue" },
       onClick: onMinifyClick,
-      disabled: !isValidJson,
+      disabled: !isValidJson || isAutoPrettifyOn,
     },
     {
       key: "prettify",
       text: "Prettify",
       iconProps: { iconName: "MaximumValue" },
       onClick: onPrettifyClick,
-      disabled: !isValidJson,
+      disabled: !isValidJson || isAutoPrettifyOn,
     },
     {
       key: "auto-prettify",
