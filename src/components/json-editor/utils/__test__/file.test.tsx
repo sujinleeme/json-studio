@@ -2,7 +2,7 @@ import React from "react";
 
 import { render } from "@testing-library/react";
 
-import { jsonInput } from "../../mock-data";
+import { validFormattedJsonInput } from "../../mock-data";
 import { downloadJsonFile } from "../file";
 
 interface MockButtonProps {
@@ -28,12 +28,12 @@ describe("downloadJsonFile", () => {
   });
 
   test("should download json file if it is invoked", () => {
-    downloadJsonFile(jsonInput);
+    downloadJsonFile(validFormattedJsonInput);
     expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1);
   });
 
   test("should download json file when button is clicked", () => {
-    const handleDownloadClick = () => downloadJsonFile(jsonInput);
+    const handleDownloadClick = () => downloadJsonFile(validFormattedJsonInput);
     const { getByTestId } = render(
       <MockButton onClick={handleDownloadClick} />
     );
