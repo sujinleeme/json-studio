@@ -75,7 +75,6 @@ const App = (): JSX.Element => {
             <JSONEditor
               title={Editor.Schema}
               path="schema.json"
-              isUploadable={!isSchemaSampleDataOn}
               defaultValue={
                 isSchemaSampleDataOn ? SampleData.schema : undefined
               }

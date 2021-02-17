@@ -35,7 +35,6 @@ interface JSONEditorProps {
   schemaValue?: string;
   title?: string;
   path?: string;
-  isUploadable?: boolean;
   onChange?: (value: string) => void;
 }
 
@@ -46,7 +45,6 @@ interface RefObject extends Monaco.editor.ICodeEditor {
 export const JSONEditor: React.FC<JSONEditorProps> = ({
   defaultValue,
   schemaValue,
-  isUploadable = true,
   title,
   path = "",
   onChange,
@@ -189,7 +187,6 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
       <Stack.Item>
         <ToolBar
           isValidJson={isValidJson}
-          isUploadable={isUploadable}
           isAutoPrettifyOn={isAutoPrettifyOn}
           onAutoPrettifyChange={toggleAutoPrettifyOn}
           onClearClick={handleClearClick}
