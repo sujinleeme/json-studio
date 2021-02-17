@@ -2,6 +2,7 @@
 
 - Download / Upload JSON file
 - Minify, Prettify JSON content
+- JSON Validation
 
 Built with [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html), [monaco-react](https://github.com/suren-atoyan/monaco-react), [fluentui-react](https://github.com/microsoft/fluentui)
 
@@ -13,14 +14,20 @@ Visit : https://sujinleeme.github.io/react-json-editor/
 
 Git clone this repo and run `yarn && yarn start`.
 
+## Current Editor Problems
+
+- Testing
+  As the initialization process is supposed to load some scripts from CDN, there is a problem with Jest (and other testing tools). It only shows "Loading..." and never gets the editor working in the test.
+  See : suren-atoyan/monaco-react#88
+
+- OnValidate
+  there are multiple editor components and one of them has broken input, only onValidate of the last component is executed and it has the other component's markers values. The absence of the API for live model makers makes it harder to provide an alternative approach.
+  See: https://github.com/suren-atoyan/monaco-react/issues/182
+
 ## TODO
 
-- HaTextarea cache
-- JSON schema validator
 - Form integration
-- Diff editor
 - Toast notification message
-- Error messages enhancement
 
 ## License
 
