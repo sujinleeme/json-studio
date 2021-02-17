@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Stack, IStackStyles, mergeStyleSets } from "@fluentui/react";
 
@@ -7,6 +7,12 @@ import { CommandBar } from "./components/command-bar";
 import { JSONEditor } from "./components/json-editor";
 import { SampleData } from "./components/json-editor/mock-data";
 import { useToggle } from "./hooks";
+
+enum Editor {
+  Schema = "Schema",
+  InputJson = "Input Json",
+}
+
 // Mutating styles definition
 const containerStyle: IStackStyles = {
   root: {
@@ -38,6 +44,7 @@ export const getEditorClassNames = (isFullWidth: boolean) => {
 const App = (): JSX.Element => {
   const [isSchemaEditorOn, toggleASchemaEditorOn] = useToggle(false);
   const [isSchemaSampleDataOn, toggleSchemaSampleDataOn] = useToggle(false);
+  const [schemaValue, setSchemaValue] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     if (!isSchemaEditorOn && isSchemaSampleDataOn) {
@@ -45,6 +52,12 @@ const App = (): JSX.Element => {
     }
   }, [isSchemaEditorOn, isSchemaSampleDataOn, toggleSchemaSampleDataOn]);
 
+  const handleSchemaValueChange = (value: string) => setSchemaValue(value);
+
+  const getSchemaValue = () =>
+    isSchemaSampleDataOn && !schemaValue ? SampleData.schema : schemaValue;
+
+  console.log(window.location.href);
   return (
     <Stack styles={containerStyle}>
       <Stack.Item>
@@ -60,19 +73,21 @@ const App = (): JSX.Element => {
         {isSchemaEditorOn && (
           <Stack.Item styles={getEditorClassNames(!isSchemaEditorOn)}>
             <JSONEditor
-              title="Schema"
+              title={Editor.Schema}
               path="schema.json"
+              isUploadable={!isSchemaSampleDataOn}
               defaultValue={
                 isSchemaSampleDataOn ? SampleData.schema : undefined
               }
+              onChange={handleSchemaValueChange}
             />
           </Stack.Item>
         )}
         <Stack.Item styles={getEditorClassNames(!isSchemaEditorOn)}>
           <JSONEditor
-            title={isSchemaEditorOn ? "Input JSON" : ""}
+            title={isSchemaEditorOn ? Editor.InputJson : ""}
             path="input_json.json"
-            schemaValue={isSchemaSampleDataOn ? SampleData.schema : undefined}
+            schemaValue={getSchemaValue()}
             defaultValue={
               isSchemaSampleDataOn ? SampleData.jsonInput : undefined
             }

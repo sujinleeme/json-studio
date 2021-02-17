@@ -16,15 +16,20 @@ export interface ToolBarProps {
   onAutoPrettifyChange: () => void;
   onDownloadClick: () => void;
   onUploadClick: (fileContent: File) => void;
+  isUploadable: boolean;
   isValidJson: boolean;
 }
 
 interface FileUploaderProps {
+  isUploadable: boolean;
   onFileHandle: (fileContent: File) => void;
 }
 
 // Need to fix: hover is not working
-export const FileUploader: React.FC<FileUploaderProps> = ({ onFileHandle }) => {
+export const FileUploader: React.FC<FileUploaderProps> = ({
+  onFileHandle,
+  isUploadable,
+}) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const handleUploadClick = () => {
@@ -41,13 +46,16 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileHandle }) => {
     onFileHandle(fileUploaded);
   };
 
-  const uploadIcon: IIconProps = { iconName: "Upload" };
+  const uploadIcon: IIconProps = {
+    iconName: "Upload",
+  };
 
   return (
     <>
       <CommandButton
         iconProps={uploadIcon}
         text="Upload"
+        disabled={!isUploadable}
         onClick={handleUploadClick}
       />
       <input
@@ -69,12 +77,18 @@ export const ToolBar: React.FC<ToolBarProps> = ({
   onClearClick,
   onDownloadClick,
   onUploadClick,
+  isUploadable,
   isValidJson,
 }) => {
   const leftItems: ICommandBarItemProps[] = [
     {
       key: "upload",
-      onRender: () => <FileUploader onFileHandle={onUploadClick} />,
+      onRender: () => (
+        <FileUploader
+          isUploadable={isUploadable}
+          onFileHandle={onUploadClick}
+        />
+      ),
     },
     {
       key: "download",

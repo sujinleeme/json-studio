@@ -35,6 +35,8 @@ interface JSONEditorProps {
   schemaValue?: string;
   title?: string;
   path?: string;
+  isUploadable?: boolean;
+  onChange?: (value: string) => void;
 }
 
 interface RefObject extends Monaco.editor.ICodeEditor {
@@ -44,11 +46,12 @@ interface RefObject extends Monaco.editor.ICodeEditor {
 export const JSONEditor: React.FC<JSONEditorProps> = ({
   defaultValue,
   schemaValue,
+  isUploadable = true,
   title,
-  path,
+  path = "",
+  onChange,
 }): JSX.Element => {
   const monaco = useMonaco();
-
   const [errors, setErrors] = useState<string[]>([]);
   const [isAutoPrettifyOn, toggleAutoPrettifyOn] = useToggle(false);
   const [isValidJson, setIsValidJson] = useState<boolean>(false);
@@ -82,7 +85,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
       schemas: schemaValue
         ? [
             {
-              uri: "http://myserver/foo-schema.json", // id of the first schema
+              uri: window.location.href, // id of the first schema
               fileMatch: ["*"], // associate with our model
               schema: {
                 ...parseJsonSchemaString(schemaValue),
@@ -168,9 +171,13 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     value && downloadJsonFile(value);
   };
 
-  const handleEditorChange = useCallback(() => {
-    isAutoPrettifyOn && handleEditorPrettify();
-  }, [isAutoPrettifyOn, handleEditorPrettify]);
+  const handleEditorChange = useCallback(
+    (value) => {
+      isAutoPrettifyOn && handleEditorPrettify();
+      onChange && onChange(value);
+    },
+    [isAutoPrettifyOn, handleEditorPrettify, onChange]
+  );
 
   return (
     <Stack styles={stackStyles}>
@@ -182,6 +189,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
       <Stack.Item>
         <ToolBar
           isValidJson={isValidJson}
+          isUploadable={isUploadable}
           isAutoPrettifyOn={isAutoPrettifyOn}
           onAutoPrettifyChange={toggleAutoPrettifyOn}
           onClearClick={handleClearClick}
