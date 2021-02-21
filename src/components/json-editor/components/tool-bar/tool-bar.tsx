@@ -11,11 +11,12 @@ import {
 export interface ToolBarProps {
   onMinifyClick: () => void;
   onPrettifyClick: () => void;
-  isAutoPrettifyOn: boolean;
   onClearClick: () => void;
   onAutoPrettifyChange: () => void;
   onDownloadClick: () => void;
   onUploadClick: (fileContent: File) => void;
+  onFixClick: () => void;
+  isAutoPrettifyOn: boolean;
   isValidJson: boolean;
 }
 
@@ -71,6 +72,7 @@ export const ToolBar: React.FC<ToolBarProps> = ({
   onClearClick,
   onDownloadClick,
   onUploadClick,
+  onFixClick,
   isValidJson,
 }) => {
   const leftItems: ICommandBarItemProps[] = [
@@ -93,6 +95,13 @@ export const ToolBar: React.FC<ToolBarProps> = ({
       onClick: onClearClick,
     },
     {
+      key: "fix",
+      text: "Fix",
+      iconProps: { iconName: "DeveloperTools" },
+      onClick: onFixClick,
+      disabled: isValidJson,
+    },
+    {
       key: "minify",
       text: "Minify",
       iconProps: { iconName: "MinimumValue" },
@@ -102,7 +111,7 @@ export const ToolBar: React.FC<ToolBarProps> = ({
     {
       key: "prettify",
       text: "Prettify",
-      iconProps: { iconName: "MaximumValue" },
+      iconProps: { iconName: "Code" },
       onClick: onPrettifyClick,
       disabled: !isValidJson || isAutoPrettifyOn,
     },

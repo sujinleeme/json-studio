@@ -7,6 +7,7 @@ import Editor, {
   OnMount,
   OnValidate,
 } from "@monaco-editor/react";
+import dirtyJson from "dirty-json";
 import * as Monaco from "monaco-editor/esm/vs/editor/editor.api";
 
 import { useToggle } from "../../hooks";
@@ -52,6 +53,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   const monaco = useMonaco();
   const [errors, setErrors] = useState<string[]>([]);
   const [isAutoPrettifyOn, toggleAutoPrettifyOn] = useToggle(false);
+
   const [isValidJson, setIsValidJson] = useState<boolean>(false);
   const editorRef = useRef<RefObject | null>(null);
 
@@ -177,6 +179,15 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     [isAutoPrettifyOn, handleEditorPrettify, onChange]
   );
 
+  const handleFixClick = () => {
+    const editor = editorRef.current;
+    const value = editor && editor.getValue();
+    const fixedValue = value && dirtyJson.parse(value);
+    const formattedValue =
+      fixedValue && prettifyJsonString(JSON.stringify(fixedValue));
+    editor && editor.setValue(formattedValue);
+  };
+
   return (
     <Stack styles={stackStyles}>
       {title && (
@@ -194,6 +205,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
           onMinifyClick={handleMinifyClick}
           onPrettifyClick={handleEditorPrettify}
           onUploadClick={handleUploadClick}
+          onFixClick={handleFixClick}
         />
       </Stack.Item>
       <Stack styles={stackStyles}>
