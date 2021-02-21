@@ -19,6 +19,8 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
+/*! http://mths.be/fromcodepoint v0.2.1 by @mathias */
+
 /** @license React v0.20.1
  * scheduler.production.min.js
  *
