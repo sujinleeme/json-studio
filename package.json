@@ -26,6 +26,7 @@
     "@fluentui/react": "^7.158.1",
     "@monaco-editor/react": "^4.0.9",
     "ajv": "^7.0.3",
+    "dirty-json": "^0.9.2",
     "monaco-editor": "^0.22.3",
     "prettier": "^2.2.1",
     "react": "^17.0.1",

@@ -1214,12 +1214,12 @@
     tslib "^1.10.0"
 
 "@fluentui/react@^7.158.1":
-  version "7.160.1"
-  resolved "https://registry.yarnpkg.com/@fluentui/react/-/react-7.160.1.tgz#4bd243b3531897f039f1c481a5d1eb29563c9b39"
-  integrity sha512-RvqlSffkiYS87r1fwAJMsr0UwMsgXBrc9FY+4gKg25yN33LJK7tbFIrhE0MiAL9Hp+K78mQT7mFYat6VLsvNPA==
+  version "7.161.0"
+  resolved "https://registry.yarnpkg.com/@fluentui/react/-/react-7.161.0.tgz#a9dd400d609edf9fb11b01607af6ba2d1092ffca"
+  integrity sha512-TZQvDVeOrZrkkcOvrg3+EwOJYE8M9UWn01BIIOULv4tjKnIpRreyKHr/nrG0Cbb0PYEmqxUex0CR+RFCqIYlpg==
   dependencies:
     "@uifabric/set-version" "^7.0.23"
-    office-ui-fabric-react "^7.160.1"
+    office-ui-fabric-react "^7.161.0"
     tslib "^1.10.0"
 
 "@fluentui/theme@^1.7.3":
@@ -1464,9 +1464,9 @@
     state-local "^1.0.6"
 
 "@monaco-editor/react@^4.0.9":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.0.9.tgz#77f3170c6c8409efe6b450467748f0df4f64d6b2"
-  integrity sha512-mTDqf47FsPnud/Ct3ekKqSFxmytkk4oMVIPUFMJF9iJcKH5AoqXs1oobXtPoVWiL9uWePatBNVCFv1pg4AqZuA==
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.0.10.tgz#401d1832854687070be116e651f7308ce65d4c0e"
+  integrity sha512-qORktN6jrypnLrgzCuuKynNNVeHY98q7waSxP+XVXot7KZp3B+x7qokZa4KqI47CohhyamF2u1jqH0tQuX2kIA==
   dependencies:
     "@monaco-editor/loader" "^1.0.0"
     prop-types "^15.7.2"
@@ -4333,6 +4333,15 @@ dir-glob@^3.0.1:
   integrity sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==
   dependencies:
     path-type "^4.0.0"
+
+dirty-json@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/dirty-json/-/dirty-json-0.9.2.tgz#221b25898ac9d326512fc373e466fa189b77fffa"
+  integrity sha512-7SCDfnQtBObcngVXNPZcnxGxqqPTK4UqeXeKAch+RGH5qpqadWbV9FmN71x9Bb4tTs0TNFb4FT/4Kz4P4Cjqcw==
+  dependencies:
+    lex "^1.7.9"
+    unescape-js "^1.1.4"
+    utf8 "^3.0.0"
 
 dns-equal@^1.0.0:
   version "1.0.0"
@@ -7322,6 +7331,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+lex@^1.7.9:
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/lex/-/lex-1.7.9.tgz#5d5636ccef574348362938b79a47f0eed8ed0d43"
+  integrity sha1-XVY2zO9XQ0g2KTi3mkfw7tjtDUM=
+
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -8163,10 +8177,10 @@ obuf@^1.0.0, obuf@^1.1.2:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
-office-ui-fabric-react@^7.160.1:
-  version "7.160.1"
-  resolved "https://registry.yarnpkg.com/office-ui-fabric-react/-/office-ui-fabric-react-7.160.1.tgz#cb5b84831dacaa2e9028785d22291736861ce9e2"
-  integrity sha512-yfwYBXZscIJgL8r/SRSiAhgLzp9QvbA7UtWsDxEleJH1YG2FG7fbUe/JkO/76WkUJjytilXGgAS9ZbL5NLdBXA==
+office-ui-fabric-react@^7.161.0:
+  version "7.161.0"
+  resolved "https://registry.yarnpkg.com/office-ui-fabric-react/-/office-ui-fabric-react-7.161.0.tgz#9eb28292b52fa2510fccf7a14cd54c68358820a2"
+  integrity sha512-BH326SCR6KS8vEbL1hJXXBMlG+sOBFEVDetLltJNKluFYhzmwiOun76ea6dzl+CHBh/7yLCkWlmtPIx1fQu81Q==
   dependencies:
     "@fluentui/date-time-utilities" "^7.9.0"
     "@fluentui/react-focus" "^7.17.4"
@@ -10804,6 +10818,11 @@ string-width@^4.1.0, string-width@^4.2.0:
     is-fullwidth-code-point "^3.0.0"
     strip-ansi "^6.0.0"
 
+string.fromcodepoint@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/string.fromcodepoint/-/string.fromcodepoint-0.2.1.tgz#8d978333c0bc92538f50f383e4888f3e5619d653"
+  integrity sha1-jZeDM8C8klOPUPOD5IiPPlYZ1lM=
+
 string.prototype.matchall@^4.0.2:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/string.prototype.matchall/-/string.prototype.matchall-4.0.3.tgz#24243399bc31b0a49d19e2b74171a15653ec996a"
@@ -11366,6 +11385,13 @@ typescript@^4.0.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.5.tgz#123a3b214aaff3be32926f0d8f1f6e704eb89a72"
   integrity sha512-6OSu9PTIzmn9TCDiovULTnET6BgXtDYL4Gg4szY+cGsc3JP1dQL8qvE8kShTRx1NIw4Q9IBHlwODjkjWEtMUyA==
 
+unescape-js@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/unescape-js/-/unescape-js-1.1.4.tgz#4bc6389c499cb055a98364a0b3094e1c3d5da395"
+  integrity sha512-42SD8NOQEhdYntEiUQdYq/1V/YHwr1HLwlHuTJB5InVVdOSbgI6xu8jK5q65yIzuFCfczzyDF/7hbGzVbyCw0g==
+  dependencies:
+    string.fromcodepoint "^0.2.1"
+
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-1.0.4.tgz#2619800c4c825800efdd8343af7dd9933cbe2818"
@@ -11523,6 +11549,11 @@ use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
+
+utf8@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/utf8/-/utf8-3.0.0.tgz#f052eed1364d696e769ef058b183df88c87f69d1"
+  integrity sha512-E8VjFIQ/TyQgp+TZfS6l8yp/xWppSAHzidGiRrqe4bK4XP9pTRyKFgGJpO3SN7zdX4DeomTrwaseCHovfpFcqQ==
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
