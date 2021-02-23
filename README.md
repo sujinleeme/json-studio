@@ -1,10 +1,17 @@
 # 🖌 React JSON Editor
 
-- Download / Upload JSON file
-- Minify, Prettify JSON content
-- JSON Validation
+![alt text](./demo.png "demo")
 
-Built with [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html), [monaco-react](https://github.com/suren-atoyan/monaco-react), [fluentui-react](https://github.com/microsoft/fluentui)
+- Download / Upload JSON file
+- JSON formatter: Minify, Prettify, Fix JSON content
+- JSON Schema Validation
+
+## Built with
+
+- [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html)
+- [monaco-react](https://github.com/suren-atoyan/monaco-react)
+- [fluentui-react](https://github.com/microsoft/fluentui)
+- [dirty-json](https://github.com/RyanMarcus/dirty-json)
 
 ## Demo
 
@@ -37,4 +44,4 @@ See: https://github.com/suren-atoyan/monaco-react/issues/182
 
 ## License
 
-MIT
+MIT (2020)
