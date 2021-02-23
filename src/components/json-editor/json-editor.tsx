@@ -115,6 +115,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     editorRef.current = editor;
 
     editor.getModel()?.updateOptions({ tabSize: 2, insertSpaces: false });
+    updateEditorLayout();
 
     window.addEventListener("resize", () => {
       // automaticLayout isn't working
@@ -209,7 +210,13 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
         />
       </Stack.Item>
       <Stack styles={stackStyles}>
-        <Stack.Item grow align="stretch">
+        <Stack.Item
+          grow
+          align="stretch"
+          style={{
+            height: `calc(100% - 20vh)`,
+          }}
+        >
           <Editor
             language="json"
             path={path}
@@ -227,7 +234,11 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
             onValidate={handleEditorValidation}
           />
         </Stack.Item>
-        <Stack.Item>
+        <Stack.Item
+          style={{
+            height: `20vh`,
+          }}
+        >
           <ErrorMessageBar errors={errors} />
         </Stack.Item>
       </Stack>

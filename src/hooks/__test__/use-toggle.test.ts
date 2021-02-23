@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react-hooks";
 
-import { useToggle } from "../useToggle";
+import { useToggle } from "../use-toggle";
 
 describe("useToggle", () => {
   test("should change the value to false if the initial value is empty and its first toggle is called.", () => {

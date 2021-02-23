@@ -21,9 +21,8 @@ interface ErrorMessageBarProps {
 
 const classNames = mergeStyleSets({
   wrapper: {
-    height: "20vh",
+    height: "inherit",
     position: "relative",
-    maxHeight: "inherit",
   },
 });
 
