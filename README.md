@@ -1,5 +1,9 @@
 # 🖌 React JSON Editor
 
+![CI/CD](https://github.com/sujinleeme/react-json-editor/actions/workflows/master_deploy.yml/badge.svg)
+[![Codecov](https://img.shields.io/codecov/c/github/sujinleeme/react-json-editor)](https://codecov.io/gh/sujinleeme/react-json-editor)
+![License](https://img.shields.io/github/license/sujinleeme/react-json-editor)
+
 ![alt text](./demo.png "demo")
 
 - Download / Upload JSON file
