@@ -18,10 +18,7 @@ export const escapeUnicodeChars = (
 ): string =>
   // note: we leave surrogate pairs as two individual chars,
   // as JSON doesn't interpret them as a single unicode char.
-  text.replace(
-    /[\u007F-\uFFFF]/g,
-    (c) => `\\u${`0000${c.charCodeAt(0).toString(16)}`.slice(-4)}`
-  );
+  text.replace(/[\u007F-\uFFFF]/g, (c) => `\\u${`0000${c.charCodeAt(0).toString(16)}`.slice(-4)}`);
 
 /**
  * Parse JSON using the parser built-in in the browser.

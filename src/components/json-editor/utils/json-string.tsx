@@ -20,9 +20,7 @@ export const prettifyJsonString = (jsonString: string): string => {
   }
 };
 
-export const parseJsonSchemaString = (
-  jsonString: string
-): Record<string, unknown> => {
+export const parseJsonSchemaString = (jsonString: string): Record<string, unknown> => {
   try {
     return JSON.parse(jsonString);
   } catch (err) {

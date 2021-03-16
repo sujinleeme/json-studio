@@ -48,11 +48,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileHandle }) => {
 
   return (
     <>
-      <CommandButton
-        iconProps={uploadIcon}
-        text="Upload"
-        onClick={handleUploadClick}
-      />
+      <CommandButton iconProps={uploadIcon} text="Upload" onClick={handleUploadClick} />
       <input
         ref={inputFileRef}
         style={{ display: "none" }}

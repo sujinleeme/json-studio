@@ -33,10 +33,7 @@ const headerStyle = {
   },
 };
 
-const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (
-  props,
-  defaultRender
-) => {
+const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (props, defaultRender) => {
   if (!props) return null;
   return (
     <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced>
@@ -48,9 +45,7 @@ const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (
   );
 };
 
-export const ErrorMessageBar: React.FC<ErrorMessageBarProps> = ({
-  errors,
-}): JSX.Element => {
+export const ErrorMessageBar: React.FC<ErrorMessageBarProps> = ({ errors }): JSX.Element => {
   const items = errors.map((error) => ({
     key: `error-${uuid()}`,
     problems: error,
@@ -68,10 +63,7 @@ export const ErrorMessageBar: React.FC<ErrorMessageBarProps> = ({
   ];
 
   return (
-    <ScrollablePane
-      scrollbarVisibility={ScrollbarVisibility.auto}
-      className={classNames.wrapper}
-    >
+    <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} className={classNames.wrapper}>
       <DetailsList
         compact
         items={items}

@@ -1,12 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Stack, IStackStyles } from "@fluentui/react";
-import Editor, {
-  useMonaco,
-  BeforeMount,
-  OnMount,
-  OnValidate,
-} from "@monaco-editor/react";
+import Editor, { useMonaco, BeforeMount, OnMount, OnValidate } from "@monaco-editor/react";
 import dirtyJson from "dirty-json";
 import * as Monaco from "monaco-editor/esm/vs/editor/editor.api";
 
@@ -24,7 +19,7 @@ import {
 
 const stackStyles: IStackStyles = {
   root: {
-    height: "100%",
+    height: "inherit",
     borderTop: BorderLine,
     borderRight: BorderLine,
     borderBottom: BorderLine,
@@ -36,6 +31,7 @@ interface JSONEditorProps {
   schemaValue?: string;
   title?: string;
   path?: string;
+  isSchemaSampleDataOn: boolean;
   onChange?: (value: string) => void;
 }
 
@@ -48,6 +44,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   schemaValue,
   title,
   path = "",
+  isSchemaSampleDataOn,
   onChange,
 }): JSX.Element => {
   const monaco = useMonaco();
@@ -137,6 +134,10 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   }, [schemaValue, handleJsonSchemasUpdate]);
 
   useEffect(() => {
+    updateEditorLayout();
+  }, [isSchemaSampleDataOn, updateEditorLayout]);
+
+  useEffect(() => {
     isAutoPrettifyOn && handleEditorPrettify();
   }, [isAutoPrettifyOn, handleEditorPrettify]);
 
@@ -184,8 +185,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
     const editor = editorRef.current;
     const value = editor && editor.getValue();
     const fixedValue = value && dirtyJson.parse(value);
-    const formattedValue =
-      fixedValue && prettifyJsonString(JSON.stringify(fixedValue));
+    const formattedValue = fixedValue && prettifyJsonString(JSON.stringify(fixedValue));
     editor && editor.setValue(formattedValue);
   };
 

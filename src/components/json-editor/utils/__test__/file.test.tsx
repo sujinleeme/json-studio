@@ -9,12 +9,7 @@ interface MockButtonProps {
   onClick: () => void;
 }
 const MockButton: React.FC<MockButtonProps> = ({ onClick }) => (
-  <button
-    type="button"
-    data-testid="mock-button"
-    aria-label="download"
-    onClick={onClick}
-  />
+  <button type="button" data-testid="mock-button" aria-label="download" onClick={onClick} />
 );
 
 describe("downloadJsonFile", () => {
@@ -34,9 +29,7 @@ describe("downloadJsonFile", () => {
 
   test("should download json file when button is clicked", () => {
     const handleDownloadClick = () => downloadJsonFile(validFormattedJsonInput);
-    const { getByTestId } = render(
-      <MockButton onClick={handleDownloadClick} />
-    );
+    const { getByTestId } = render(<MockButton onClick={handleDownloadClick} />);
     const button = getByTestId("mock-button");
     button.click();
     expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1);
