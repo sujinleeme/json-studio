@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/react-json-editor/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/react-json-editor/static/js/main.c006550b.chunk.js",
+    "main.js.map": "/react-json-editor/static/js/main.c006550b.chunk.js.map",
+    "runtime-main.js": "/react-json-editor/static/js/runtime-main.12222430.js",
+    "runtime-main.js.map": "/react-json-editor/static/js/runtime-main.12222430.js.map",
+    "static/js/2.63397e6d.chunk.js": "/react-json-editor/static/js/2.63397e6d.chunk.js",
+    "static/js/2.63397e6d.chunk.js.map": "/react-json-editor/static/js/2.63397e6d.chunk.js.map",
+    "static/js/3.fb9c09d4.chunk.js": "/react-json-editor/static/js/3.fb9c09d4.chunk.js",
+    "static/js/3.fb9c09d4.chunk.js.map": "/react-json-editor/static/js/3.fb9c09d4.chunk.js.map",
+    "index.html": "/react-json-editor/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/react-json-editor/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.63397e6d.chunk.js.LICENSE.txt": "/react-json-editor/static/js/2.63397e6d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.12222430.js",
+    "static/js/2.63397e6d.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.c006550b.chunk.js"
+  ]
+}
