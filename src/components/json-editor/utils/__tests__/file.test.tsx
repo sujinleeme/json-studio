@@ -2,7 +2,7 @@ import React from "react";
 
 import { render } from "@testing-library/react";
 
-import { validFormattedJsonInput } from "../../mock-data";
+import { validFormattedJsonInput } from "../__mocks__/mock-data";
 import { downloadJsonFile } from "../file";
 
 interface MockButtonProps {

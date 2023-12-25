@@ -33,14 +33,6 @@ As the initialization process is supposed to load some scripts from CDN, there i
 
 See : https://github.com/suren-atoyan/monaco-react/issues/88
 
-### Error-Message-Bar
-
-`OnValidate`
-
-In this web, there are multiple editor components and one of them has broken input, only onValidate of the last component is executed and it has the other component's markers values. The absence of the API for live model makers makes it harder to provide an alternative approach.
-
-See: https://github.com/suren-atoyan/monaco-react/issues/182
-
 ## TODO
 
 - Form integration
