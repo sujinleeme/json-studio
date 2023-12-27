@@ -1,15 +1,14 @@
 {
-  "name": "react-json-editor",
+  "name": "json-studio",
   "author": {
     "name": "Sujin Lee",
-    "email": "sujinlee.me@gmail.com",
-    "url": "https://sujinlee.me"
+    "email": "sujinlee.me@gmail.com"
   },
-  "description": "A simple online json editor",
+  "description": "JSON Schema Based Editor",
   "version": "0.1.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sujinleeme/react-json-editor"
+    "url": "https://github.com/sujinleeme/json-studio"
   },
   "keywords": [
     "json",
@@ -19,9 +18,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sujinleeme/react-json-editor/issues"
+    "url": "https://github.com/sujinleeme/json-studio/issues"
   },
-  "homepage": "/react-json-editor/",
+  "homepage": "https://json-studio.vercel.app",
   "jest": {
     "preset": "ts-jest/presets/js-with-ts",
     "testEnvironment": "jest-environment-jsdom",
@@ -60,8 +59,7 @@
     "preview": "vite preview",
     "format": "prettier --write src/**/*.ts{,x}",
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "yarn build"
   },
   "husky": {
     "hooks": {
@@ -102,7 +100,6 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^5.1.2",
-    "gh-pages": "^6.1.1",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",

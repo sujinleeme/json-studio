@@ -9,7 +9,7 @@ export const AppBar = (): JSX.Element => {
       text: "title",
       onRender: () => (
         <Text variant="xLarge" nowrap block>
-          JSON Online Editor
+          JSON Studio
         </Text>
       ),
     },
