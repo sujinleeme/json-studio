@@ -9,7 +9,7 @@ import { SampleData } from "./components/json-editor/utils/__mocks__/mock-data";
 import { useToggle } from "./hooks";
 
 enum Editor {
-  Schema = "Schema",
+  Schema = "JSON Schema",
   InputJson = "Input JSON",
 }
 

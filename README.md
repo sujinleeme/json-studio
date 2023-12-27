@@ -12,10 +12,11 @@
 
 ## Built with
 
-- [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html)
-- [monaco-react](https://github.com/suren-atoyan/monaco-react)
-- [fluentui-react](https://github.com/microsoft/fluentui)
-- [dirty-json](https://github.com/RyanMarcus/dirty-json)
+- [monaco-react](https://github.com/suren-atoyan/monaco-react) - Monaco Editor for React
+- [fluent ui](https://github.com/microsoft/fluentui) - A react component library developed by Microsoft
+- [dirty-json](https://github.com/RyanMarcus/dirty-json) - A JSON parser that tries to handle non-conforming or otherwise invalid JSON
+- [Ajv](https://github.com/ajv-validator/ajv) - A fastest JSON validator for Node.js and browser
+- [vite](https://vitejs.dev) and [vercel](https://vercel.com)
 
 ## Demo
 
