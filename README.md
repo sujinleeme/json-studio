@@ -41,4 +41,4 @@ See : https://github.com/suren-atoyan/monaco-react/issues/88
 
 ## License
 
-MIT (2020)
+MIT (2020~)

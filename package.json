@@ -3,10 +3,10 @@
   "author": {
     "name": "Sujin Lee",
     "email": "sujinlee.me@gmail.com",
-    "url": "https://sujinlee.me/"
+    "url": "https://sujinlee.me"
   },
   "description": "A simple online json editor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/sujinleeme/react-json-editor"
