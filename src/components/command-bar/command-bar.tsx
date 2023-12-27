@@ -41,7 +41,7 @@ export const CommandBarComponent: React.FC<CommandBarComponentProps> = ({
         isSchemaEditorOn && (
           <CommandButton>
             <Checkbox
-              label="Use Sample Schema Data"
+              label="Use sample JSON Schema Data"
               onChange={onSchemaSampleDataOn}
               checked={isSchemaSampleDataOn}
             />

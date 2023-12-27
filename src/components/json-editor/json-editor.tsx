@@ -32,26 +32,25 @@ interface JSONEditorProps {
   title?: string;
   path?: string;
   isSchemaSampleDataOn: boolean;
-  onChange?: (value: string) => void;
+  onChange?: (value?: string) => void;
 }
 
 interface RefObject extends Monaco.editor.ICodeEditor {
   _domElement?: HTMLElement;
 }
 
-export const JSONEditor: React.FC<JSONEditorProps> = ({
+export const JSONEditor = ({
   defaultValue,
   schemaValue,
   title,
   path = "",
   isSchemaSampleDataOn,
   onChange,
-}): JSX.Element => {
+}: JSONEditorProps) => {
   const monaco = useMonaco();
   const [errors, setErrors] = useState<string[]>([]);
   const [isAutoPrettifyOn, toggleAutoPrettifyOn] = useToggle(false);
-
-  const [isValidJson, setIsValidJson] = useState<boolean>(false);
+  const [isValidJson, setIsValidJson] = useState(false);
   const editorRef = useRef<RefObject | null>(null);
 
   const updateEditorLayout = useCallback(() => {
@@ -94,14 +93,14 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   }, [schemaValue, monaco]);
 
   const handleEditorPrettify = useCallback(() => {
-    editorRef.current?.getAction("editor.action.formatDocument").run();
+    editorRef.current?.getAction("editor.action.formatDocument")?.run();
   }, []);
 
   const handleEditorUpdateValue = useCallback((value?: string) => {
     const editor = editorRef.current;
     if (!editor) return;
     editor.setValue(value || "");
-    value && editor.getAction("editor.action.formatDocument").run();
+    value && editor?.getAction("editor.action.formatDocument")?.run();
   }, []);
 
   const handleClearClick = () => editorRef.current?.setValue("");
@@ -174,7 +173,7 @@ export const JSONEditor: React.FC<JSONEditorProps> = ({
   };
 
   const handleEditorChange = useCallback(
-    (value) => {
+    (value: string | undefined) => {
       isAutoPrettifyOn && handleEditorPrettify();
       onChange && onChange(value);
     },

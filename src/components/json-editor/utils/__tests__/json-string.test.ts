@@ -2,7 +2,7 @@ import {
   invalidFormattedJsonInput,
   validFormattedJsonInput,
   validMinifiedJsonInput,
-} from "../../mock-data";
+} from "../__mocks__/mock-data";
 import { minifyJsonString, prettifyJsonString } from "../json-string";
 
 describe("minifyJsonString", () => {

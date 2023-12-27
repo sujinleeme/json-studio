@@ -5,11 +5,11 @@ import { Stack, IStackStyles, mergeStyleSets } from "@fluentui/react";
 import { AppBar } from "./components/app-bar";
 import { CommandBar } from "./components/command-bar";
 import { JSONEditor } from "./components/json-editor";
-import { SampleData } from "./components/json-editor/mock-data";
+import { SampleData } from "./components/json-editor/utils/__mocks__/mock-data";
 import { useToggle } from "./hooks";
 
 enum Editor {
-  Schema = "Schema",
+  Schema = "JSON Schema",
   InputJson = "Input JSON",
 }
 
@@ -54,7 +54,7 @@ const App = (): JSX.Element => {
     }
   }, [isSchemaEditorOn, isSchemaSampleDataOn, toggleSchemaSampleDataOn]);
 
-  const handleSchemaValueChange = (value: string) => setSchemaValue(value);
+  const handleSchemaValueChange = (value?: string) => setSchemaValue(value);
 
   const getSchemaValue = () =>
     isSchemaSampleDataOn && !schemaValue ? SampleData.schema : schemaValue;

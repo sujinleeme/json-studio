@@ -10,6 +10,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -27,3 +28,4 @@ yarn-error.log*
 
 # yarn
 yarn.lock
+.vercel

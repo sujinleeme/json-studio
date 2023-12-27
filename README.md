@@ -1,8 +1,8 @@
-# 🖌 React JSON Editor
+# 🖌 JSON Studio - JSON Schema Based Editor
 
-![CI/CD](https://github.com/sujinleeme/react-json-editor/actions/workflows/master_deploy.yml/badge.svg)
-[![Codecov](https://img.shields.io/codecov/c/github/sujinleeme/react-json-editor)](https://codecov.io/gh/sujinleeme/react-json-editor)
-![License](https://img.shields.io/github/license/sujinleeme/react-json-editor)
+![CI/CD](https://github.com/sujinleeme/json-studio/actions/workflows/master_deploy.yml/badge.svg)
+[![Codecov](https://img.shields.io/codecov/c/github/sujinleeme/json-studio)](https://codecov.io/gh/sujinleeme/json-studio)
+![License](https://img.shields.io/github/license/sujinleeme/json-studio)
 
 ![alt text](./demo.png "demo")
 
@@ -12,14 +12,15 @@
 
 ## Built with
 
-- [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html)
-- [monaco-react](https://github.com/suren-atoyan/monaco-react)
-- [fluentui-react](https://github.com/microsoft/fluentui)
-- [dirty-json](https://github.com/RyanMarcus/dirty-json)
+- [monaco-react](https://github.com/suren-atoyan/monaco-react) - Monaco Editor for React
+- [fluent ui](https://github.com/microsoft/fluentui) - A react component library developed by Microsoft
+- [dirty-json](https://github.com/RyanMarcus/dirty-json) - A JSON parser that tries to handle non-conforming or otherwise invalid JSON
+- [Ajv](https://github.com/ajv-validator/ajv) - A fastest JSON validator for Node.js and browser
+- [vite](https://vitejs.dev) and [vercel](https://vercel.com)
 
 ## Demo
 
-Visit : https://sujinleeme.github.io/react-json-editor/
+Visit to https://json-studio.vercel.app
 
 ## Installation
 
@@ -33,14 +34,6 @@ As the initialization process is supposed to load some scripts from CDN, there i
 
 See : https://github.com/suren-atoyan/monaco-react/issues/88
 
-### Error-Message-Bar
-
-`OnValidate`
-
-In this web, there are multiple editor components and one of them has broken input, only onValidate of the last component is executed and it has the other component's markers values. The absence of the API for live model makers makes it harder to provide an alternative approach.
-
-See: https://github.com/suren-atoyan/monaco-react/issues/182
-
 ## TODO
 
 - Form integration
@@ -48,4 +41,4 @@ See: https://github.com/suren-atoyan/monaco-react/issues/182
 
 ## License
 
-MIT (2020)
+MIT (2020~)
