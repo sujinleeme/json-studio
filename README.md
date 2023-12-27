@@ -1,8 +1,8 @@
-# 🖌 React JSON Editor
+# 🖌 JSON Studio - JSON Schema Based Editor
 
-![CI/CD](https://github.com/sujinleeme/react-json-editor/actions/workflows/master_deploy.yml/badge.svg)
-[![Codecov](https://img.shields.io/codecov/c/github/sujinleeme/react-json-editor)](https://codecov.io/gh/sujinleeme/react-json-editor)
-![License](https://img.shields.io/github/license/sujinleeme/react-json-editor)
+![CI/CD](https://github.com/sujinleeme/json-studio/actions/workflows/master_deploy.yml/badge.svg)
+[![Codecov](https://img.shields.io/codecov/c/github/sujinleeme/json-studio)](https://codecov.io/gh/sujinleeme/json-studio)
+![License](https://img.shields.io/github/license/sujinleeme/json-studio)
 
 ![alt text](./demo.png "demo")
 
@@ -20,7 +20,7 @@
 
 ## Demo
 
-Visit : https://sujinleeme.github.io/react-json-editor/
+Visit to https://json-studio.vercel.app
 
 ## Installation
 
