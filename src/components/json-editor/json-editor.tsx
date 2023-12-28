@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Stack, IStackStyles } from "@fluentui/react";
 import Editor, { useMonaco, BeforeMount, OnMount, OnValidate } from "@monaco-editor/react";

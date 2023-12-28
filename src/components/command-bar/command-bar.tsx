@@ -1,12 +1,8 @@
-import React from "react";
-
 import {
   CommandBar,
   CommandButton,
   Checkbox,
-  // DefaultButton,
   ICommandBarItemProps,
-  // IIconProps,
 } from "@fluentui/react";
 
 export interface CommandBarComponentProps {

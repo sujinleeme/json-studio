@@ -1,5 +1,3 @@
-import React from "react";
-
 import { CommandBar, ICommandBarItemProps, Text } from "@fluentui/react";
 
 interface TitleBarProps {
