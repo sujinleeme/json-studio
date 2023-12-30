@@ -50,13 +50,16 @@ interface ValidateSchemaArgs {
 
 type ValidateSchema = ImproveSchemaError[] | undefined;
 
-const validateSchema = ({ schema, json }: ValidateSchemaArgs): ValidateSchema => {
+const validateSchema = ({
+  schema,
+  json,
+}: ValidateSchemaArgs): ValidateSchema => {
   if (schema) {
     const validator = ajv.compile(schema);
     const isValid = validator(json);
-    if (!isValid) {
-      const { errors } = validator;
-      return (errors && errors.map((error) => improveSchemaError(error))) || undefined;
+    const { errors } = validator;
+    if (!isValid && errors) {
+      return errors.map((error) => improveSchemaError(error));
     }
   }
   return undefined;
@@ -74,7 +77,7 @@ interface ImproveParseError {
 
 const improveParseError = (err: Error): ImproveParseError[] => {
   const match = /\w*line\s*(\d+)\w*/g.exec(err.message);
-  const line = (match && +match[1]) || undefined;
+  const line = (match && +match[1]) ?? undefined;
   return [
     {
       line,
@@ -92,9 +95,14 @@ interface ValidateJsonArgs {
   schema?: Record<string, unknown>;
 }
 
-export type ValidationJson = (ImproveSchemaError | ImproveParseError)[] | undefined;
+export type ValidationJson =
+  | (ImproveSchemaError | ImproveParseError)[]
+  | undefined;
 
-export const validateJson = ({ jsonString, schema }: ValidateJsonArgs): ValidationJson => {
+export const validateJson = ({
+  jsonString,
+  schema,
+}: ValidateJsonArgs): ValidationJson => {
   try {
     const json = parseString(jsonString);
     // execute JSON schema validation (ajv)

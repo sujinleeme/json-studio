@@ -2,15 +2,15 @@ import { v4 as uuid } from "uuid";
 
 declare global {
   interface Navigator {
-    msSaveOrOpenBlob: (blobOrBase64: Blob | string, filename: string) => void
+    msSaveOrOpenBlob: (blobOrBase64: Blob | string, filename: string) => void;
   }
 }
 
-export const downloadJsonFile = async (jsonString: string) => {
+export const downloadJsonFile = (jsonString: string) => {
   const fileName = uuid();
   // Set the HREF to a Blob representation of the data to be downloaded
   const blob = new Blob([jsonString], { type: "application/json" });
-  if (window.navigator && window.navigator.msSaveOrOpenBlob ) {
+  if (window.navigator?.msSaveOrOpenBlob) {
     // for IE
     window.navigator.msSaveOrOpenBlob(blob, fileName);
   } else {
@@ -21,7 +21,7 @@ export const downloadJsonFile = async (jsonString: string) => {
       link.style.display = "none";
       document.body.appendChild(link);
 
-      const href = await window.URL.createObjectURL(blob);
+      const href = window.URL.createObjectURL(blob);
       // blob ready, download it
       link.href = href;
       link.download = `${fileName}.json`;

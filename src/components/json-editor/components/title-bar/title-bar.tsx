@@ -3,7 +3,7 @@ import { CommandBar, ICommandBarItemProps, Text } from "@fluentui/react";
 interface TitleBarProps {
   title: string;
 }
-export const TitleBar: React.FC<TitleBarProps> = ({ title }): JSX.Element => {
+export const TitleBar = ({ title }: TitleBarProps) => {
   const items: ICommandBarItemProps[] = [
     {
       key: title,

@@ -1,11 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { Stack, IStackStyles } from "@fluentui/react";
-import Editor, { useMonaco, BeforeMount, OnMount, OnValidate } from "@monaco-editor/react";
 import dirtyJson from "dirty-json";
 import * as Monaco from "monaco-editor/esm/vs/editor/editor.api";
 
-import { useToggle } from "../../hooks";
+import { Stack, IStackStyles } from "@fluentui/react";
+import Editor, {
+  useMonaco,
+  BeforeMount,
+  OnMount,
+  OnValidate,
+} from "@monaco-editor/react";
+
 import { ErrorMessageBar } from "./components/error-message-bar";
 import { TitleBar } from "./components/title-bar";
 import { ToolBar } from "./components/tool-bar";
@@ -16,6 +21,7 @@ import {
   prettifyJsonString,
   parseJsonSchemaString,
 } from "./utils";
+import { useToggle } from "../../hooks";
 
 const stackStyles: IStackStyles = {
   root: {
@@ -54,19 +60,18 @@ export const JSONEditor = ({
   const editorRef = useRef<RefObject | null>(null);
 
   const updateEditorLayout = useCallback(() => {
+    const editor = editorRef.current;
+    const editorEl = editor?._domElement;
+
+    if (!editor || !editorEl) return;
     // Type BUG: editor.IDimension.width & editor.IDimension.height should be "number"
     // but it needs to have "auto" otherwise layout can't be updated;
-    // eslint-disable-next-line
-    const editor: any = editorRef.current;
-    if (!editor) return;
     // Initialize layout's width and height
     editor.layout({
       width: "auto",
       height: "auto",
-    });
-    // eslint-disable-next-line
-    const editorEl = editor._domElement;
-    if (!editorEl) return;
+    } as unknown as Monaco.editor.IDimension);
+
     const { width, height } = editorEl.getBoundingClientRect();
     // update responsive width and height
     editor.layout({
@@ -92,14 +97,16 @@ export const JSONEditor = ({
     });
   }, [schemaValue, monaco]);
 
-  const handleEditorPrettify = useCallback(() => {
-    editorRef.current?.getAction("editor.action.formatDocument")?.run();
+  const handleEditorPrettify = useCallback((value?: string) => {
+    const editor = editorRef.current;
+    if (!editor) return;
+    value && editor?.getAction("editor.action.formatDocument")?.run();
   }, []);
 
   const handleEditorUpdateValue = useCallback((value?: string) => {
     const editor = editorRef.current;
     if (!editor) return;
-    editor.setValue(value || "");
+    editor.setValue(value ?? "");
     value && editor?.getAction("editor.action.formatDocument")?.run();
   }, []);
 
@@ -142,7 +149,7 @@ export const JSONEditor = ({
 
   const handleEditorValidation: OnValidate = useCallback((markers) => {
     const errorMessage = markers.map(
-      ({ startLineNumber, message }) => `line ${startLineNumber}: ${message}`
+      ({ startLineNumber, message }) => `line ${startLineNumber}: ${message}`,
     );
     const hasContent = editorRef.current?.getValue();
     const hasError: boolean = errorMessage.length > 0;
@@ -177,14 +184,17 @@ export const JSONEditor = ({
       isAutoPrettifyOn && handleEditorPrettify();
       onChange && onChange(value);
     },
-    [isAutoPrettifyOn, handleEditorPrettify, onChange]
+    [isAutoPrettifyOn, onChange, handleEditorPrettify],
   );
 
   const handleFixClick = () => {
     const editor = editorRef.current;
-    const value = editor && editor.getValue();
-    const fixedValue = value && dirtyJson.parse(value);
-    const formattedValue = fixedValue && prettifyJsonString(JSON.stringify(fixedValue));
+    const value = editor?.getValue();
+    if (!value) return;
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const fixedValue = dirtyJson.parse(value);
+    const formattedValue = prettifyJsonString(JSON.stringify(fixedValue));
     editor && editor.setValue(formattedValue);
   };
 

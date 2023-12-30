@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import viteTsconfigPaths from "vite-tsconfig-paths";
-import browserslistToEsbuild from 'browserslist-to-esbuild'
+import browserslistToEsbuild from "browserslist-to-esbuild";
 
 export default defineConfig({
   // depending on your application, base can also be "/"

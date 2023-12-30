@@ -5,7 +5,7 @@
     "email": "sujinlee.me@gmail.com"
   },
   "description": "JSON Schema Based Editor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/sujinleeme/json-studio"
@@ -21,20 +21,36 @@
     "url": "https://github.com/sujinleeme/json-studio/issues"
   },
   "homepage": "https://json-studio.vercel.app",
-  "jest": {
-    "preset": "ts-jest/presets/js-with-ts",
-    "testEnvironment": "jest-environment-jsdom",
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    },
-    "modulePaths": [
-      "<rootDir>/src"
+  "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage .",
+    "test:debug": "jest --inspect-brk --runInBand --no-cache",
+    "lint": "yarn lint:code && yarn lint:styles",
+    "lint:code": "eslint 'src/**/*.{js,ts,tsx}' --max-warnings=0",
+    "lint:styles": "stylelint 'src/**/*.{css,tsx}'",
+    "lint:fix": "yarn lint:code -- --fix && yarn lint:styles -- --fix",
+    "preview": "vite preview",
+    "predeploy": "yarn build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn test",
+      "pre-push": "lint-staged && yarn test"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx}": [
+      "yarn lint:code --",
+      "stylelint"
     ]
   },
   "dependencies": {
     "@fluentui/react": "^8.114.0",
     "@monaco-editor/react": "^4.6.0",
+    "@testing-library/jest-dom": "^6.1.6",
     "@vitejs/plugin-react": "^4.2.1",
     "ajv": "^8.12.0",
     "browserslist-to-esbuild": "^1.2.0",
@@ -46,64 +62,50 @@
     "typescript": "^5.3.3",
     "uuid": "^9.0.1",
     "vite": "^5.0.10",
-    "vite-tsconfig-paths": "^4.2.2",
-    "web-vitals": "^3.5.0"
-  },
-  "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage .",
-    "test:debug": "jest --inspect-brk --runInBand --no-cache",
-    "preview": "vite preview",
-    "format": "prettier --write src/**/*.ts{,x}",
-    "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
-    "predeploy": "yarn build"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && yarn test",
-      "pre-push": "lint-staged && yarn test"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "yarn lint --fix"
-    ],
-    "*.{json,md,html}": [
-      "prettier --write"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "vite-tsconfig-paths": "^4.2.3",
+    "web-vitals": "^3.5.1"
   },
   "devDependencies": {
     "@testing-library/dom": "^9.3.3",
-    "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
     "@testing-library/react-hooks": "^8.0.1",
-    "@testing-library/user-event": "^14.5.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/eslint": "^8",
     "@types/jest": "^29.5.11",
-    "@types/node": "^20.10.5",
-    "@types/react": "^18.2.45",
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
     "@types/uuid": "^9.0.7",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-airbnb-typescript-prettier": "^5.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^5.1.2",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.2.0",
+    "postcss-styled-syntax": "^0.6.1",
+    "stylelint": "^16.1.0",
+    "stylelint-config-recess-order": "^4.4.0",
+    "stylelint-config-standard": "^36.0.0",
     "ts-jest": "^29.1.1"
-  }
+  },
+  "jest": {
+    "preset": "ts-jest/presets/js-with-ts",
+    "testEnvironment": "jest-environment-jsdom",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "modulePaths": [
+      "<rootDir>/src"
+    ]
+  },
+  "packageManager": "yarn@4.0.2"
 }

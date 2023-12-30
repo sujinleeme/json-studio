@@ -1,6 +1,6 @@
 import { CommandBar, ICommandBarItemProps, Text } from "@fluentui/react";
 
-export const AppBar = (): JSX.Element => {
+export const AppBar = () => {
   const items: ICommandBarItemProps[] = [
     {
       key: "title",

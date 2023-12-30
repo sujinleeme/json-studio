@@ -20,8 +20,11 @@ export const prettifyJsonString = (jsonString: string): string => {
   }
 };
 
-export const parseJsonSchemaString = (jsonString: string): Record<string, unknown> => {
+export const parseJsonSchemaString = (
+  jsonString: string
+): Record<string, unknown> => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return JSON.parse(jsonString);
   } catch (err) {
     // try to throw a more detailed error message using validate

@@ -1,1 +1,4 @@
-src/serviceWorker.ts
+vite.config.mts
+.eslintrc.cjs
+dist
+stylelint.config.cjs

@@ -24,8 +24,8 @@ interface FileUploaderProps {
   onFileHandle: (fileContent: File) => void;
 }
 
-// Need to fix: hover is not working
-export const FileUploader: React.FC<FileUploaderProps> = ({ onFileHandle }) => {
+// TODO: Need to fix: hover is not working
+export const FileUploader = ({ onFileHandle }: FileUploaderProps) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const handleUploadClick = () => {
@@ -48,7 +48,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileHandle }) => {
 
   return (
     <>
-      <CommandButton iconProps={uploadIcon} text="Upload" onClick={handleUploadClick} />
+      <CommandButton
+        iconProps={uploadIcon}
+        text="Upload"
+        onClick={handleUploadClick}
+      />
       <input
         ref={inputFileRef}
         style={{ display: "none" }}
@@ -60,7 +64,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileHandle }) => {
   );
 };
 
-export const ToolBar: React.FC<ToolBarProps> = ({
+export const ToolBar = ({
   onMinifyClick,
   onPrettifyClick,
   isAutoPrettifyOn,
@@ -70,7 +74,7 @@ export const ToolBar: React.FC<ToolBarProps> = ({
   onUploadClick,
   onFixClick,
   isValidJson,
-}) => {
+}: ToolBarProps) => {
   const leftItems: ICommandBarItemProps[] = [
     {
       key: "upload",

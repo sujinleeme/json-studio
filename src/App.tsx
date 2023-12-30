@@ -28,7 +28,11 @@ const editorStackStyle: IStackStyles = {
   },
 };
 
-export const getEditorClassNames = ({ isFullWidth }: { isFullWidth: boolean }): IStackStyles =>
+export const getEditorClassNames = ({
+  isFullWidth,
+}: {
+  isFullWidth: boolean;
+}): IStackStyles =>
   mergeStyleSets({
     root: [
       {
@@ -42,7 +46,7 @@ export const getEditorClassNames = ({ isFullWidth }: { isFullWidth: boolean }): 
     ],
   });
 
-const App = (): JSX.Element => {
+const App = () => {
   const [isSchemaEditorOn, toggleASchemaEditorOn] = useToggle(false);
   const [isSchemaSampleDataOn, toggleSchemaSampleDataOn] = useToggle(false);
   const [schemaValue, setSchemaValue] = useState<string | undefined>(undefined);
@@ -52,7 +56,7 @@ const App = (): JSX.Element => {
     if (!isSchemaEditorOn && isSchemaSampleDataOn) {
       toggleSchemaSampleDataOn();
     }
-  }, [isSchemaEditorOn, isSchemaSampleDataOn, toggleSchemaSampleDataOn]);
+  }, [isSchemaSampleDataOn, isSchemaEditorOn, toggleSchemaSampleDataOn]);
 
   const handleSchemaValueChange = (value?: string) => setSchemaValue(value);
 
@@ -82,7 +86,9 @@ const App = (): JSX.Element => {
             <JSONEditor
               title={Editor.Schema}
               path="schema.json"
-              defaultValue={isSchemaSampleDataOn ? SampleData.schema : undefined}
+              defaultValue={
+                isSchemaSampleDataOn ? SampleData.schema : undefined
+              }
               isSchemaSampleDataOn={isSchemaSampleDataOn}
               onChange={handleSchemaValueChange}
             />
@@ -98,7 +104,9 @@ const App = (): JSX.Element => {
             path="input_json.json"
             schemaValue={getSchemaValue()}
             isSchemaSampleDataOn={isSchemaSampleDataOn}
-            defaultValue={isSchemaSampleDataOn ? SampleData.jsonInput : undefined}
+            defaultValue={
+              isSchemaSampleDataOn ? SampleData.jsonInput : undefined
+            }
           />
         </Stack.Item>
       </Stack>

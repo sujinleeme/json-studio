@@ -1,12 +1,19 @@
 {
-  "files.autoSave": "onFocusChange",
-  "eslint.validate": ["typescript", "typescriptreact"],
+  // Code action kinds to be run on save.
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll": "explicit"
   },
-  "eslint.alwaysShowStatus": true,
-  "eslint.format.enable": true,
-  "eslint.lintTask.enable": true,
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true
+  // Force to always use my workspace's version of TypeScript
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  // ESLint will validate
+  "eslint.options": {
+    "overrideConfigFile": "./.eslintrc.cjs"
+  },
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.nodePath": ".yarn/sdks",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs"
 }

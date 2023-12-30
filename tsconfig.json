@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*", "types/dirty-json.d.ts"]
+  "include": ["src", "types/dirty-json.d.ts", "eslint.config.js"]
 }

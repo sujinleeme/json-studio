@@ -12,12 +12,12 @@ export interface CommandBarComponentProps {
   onSchemaSampleDataOn: () => void;
 }
 
-export const CommandBarComponent: React.FC<CommandBarComponentProps> = ({
+export const CommandBarComponent = ({
   isSchemaEditorOn,
   onSchemaEditorChange,
   isSchemaSampleDataOn,
   onSchemaSampleDataOn,
-}) => {
+}: CommandBarComponentProps) => {
   const leftItems: ICommandBarItemProps[] = [
     {
       key: "use-json-schema",

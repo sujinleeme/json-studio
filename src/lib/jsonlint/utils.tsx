@@ -5,7 +5,8 @@ import jsonlint from ".";
  * This method uses JSONLint to validate the String. If JSONLint is not
  * available, the built-in JSON parser of the browser is used.
  */
-export const validateString = (jsonString: string): void =>
+export const validateString = (jsonString: string) =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   jsonlint ? jsonlint.parse(jsonString) : JSON.parse(jsonString);
 
 /**
@@ -18,7 +19,10 @@ export const escapeUnicodeChars = (
 ): string =>
   // note: we leave surrogate pairs as two individual chars,
   // as JSON doesn't interpret them as a single unicode char.
-  text.replace(/[\u007F-\uFFFF]/g, (c) => `\\u${`0000${c.charCodeAt(0).toString(16)}`.slice(-4)}`);
+  text.replace(
+    /[\u007F-\uFFFF]/g,
+    (c) => `\\u${`0000${c.charCodeAt(0).toString(16)}`.slice(-4)}`
+  );
 
 /**
  * Parse JSON using the parser built-in in the browser.
@@ -27,6 +31,7 @@ export const escapeUnicodeChars = (
 
 export const parseString = (jsonString: string): JSON => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return JSON.parse(jsonString);
   } catch (err) {
     // try to throw a more detailed error message using validate

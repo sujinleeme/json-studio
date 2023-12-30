@@ -1,3 +1,6 @@
+
+import { v4 as uuid } from "uuid";
+
 import {
   DetailsList,
   ScrollablePane,
@@ -9,7 +12,6 @@ import {
   IRenderFunction,
   IColumn,
 } from "@fluentui/react";
-import { v4 as uuid } from "uuid";
 
 import { BorderLine } from "../../styles";
 
@@ -31,7 +33,10 @@ const headerStyle = {
   },
 };
 
-const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (props, defaultRender) => {
+const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (
+  props,
+  defaultRender
+) => {
   if (!props) return null;
   return (
     <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced>
@@ -43,7 +48,7 @@ const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (props, defa
   );
 };
 
-export const ErrorMessageBar: React.FC<ErrorMessageBarProps> = ({ errors }): JSX.Element => {
+export const ErrorMessageBar = ({ errors }: ErrorMessageBarProps) => {
   const items = errors.map((error) => ({
     key: `error-${uuid()}`,
     problems: error,
@@ -61,7 +66,10 @@ export const ErrorMessageBar: React.FC<ErrorMessageBarProps> = ({ errors }): JSX
   ];
 
   return (
-    <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} className={classNames.wrapper}>
+    <ScrollablePane
+      scrollbarVisibility={ScrollbarVisibility.auto}
+      className={classNames.wrapper}
+    >
       <DetailsList
         compact
         items={items}

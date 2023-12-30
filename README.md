@@ -24,7 +24,7 @@ Visit to https://json-studio.vercel.app
 
 ## Installation
 
-Git clone this repo and run `yarn && yarn start`.
+Git clone this repo and run `yarn start`. (Zero-installs)
 
 ## Current Monaco Editor's Problems
 
